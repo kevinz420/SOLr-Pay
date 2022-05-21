@@ -5,15 +5,20 @@ import { Button } from "./Button";
 import logo from "../assets/logo.svg";
 import pfp from "../assets/pfp.jpeg";
 import { Link } from "react-router-dom";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 export const Header: React.FC = () => {
+  const wallet = useWallet();
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       <div className="max-w-screen-xl mx-auto h-20 flex p-4 items-center justify-between">
+
         <Link to="/" className="h-full">
           <img src={logo} alt="" className="h-full" />
         </Link>
@@ -45,7 +50,7 @@ export const Header: React.FC = () => {
           </div>
         </form>
 
-        <div className="flex gap-2 items-center">
+        {wallet.connected ? <div className="flex gap-2 items-center">
           <Button>
             <SwitchHorizontalIcon className="h-5 text-gray-300" />
             Send/Request
@@ -110,8 +115,9 @@ export const Header: React.FC = () => {
               </Menu.Items>
             </Transition>
           </Menu>
-        </div>
+        </div> : <WalletMultiButton/>}
       </div>
+
     </Disclosure>
   );
 };
