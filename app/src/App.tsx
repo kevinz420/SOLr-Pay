@@ -1,9 +1,9 @@
 // Styling
-import "./App.css";
+import "@solana/wallet-adapter-react-ui/styles.css";
 import "flowbite";
 
 import { useMemo } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { clusterApiUrl } from "@solana/web3.js";
 
 // Components
@@ -26,8 +26,6 @@ import {
   SolletWalletAdapter,
   TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import "@solana/wallet-adapter-react-ui/styles.css";
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 function App() {
   // 'devnet', 'testnet', or 'mainnet-beta'
@@ -51,17 +49,16 @@ function App() {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <WalletMultiButton/>
-          {/* <BrowserRouter>
+          <BrowserRouter>
             <div className="App font-sans bg-gray-100">
               <Header/>
               <div className="h-screen max-w-screen-xl mx-auto bg-gray-100">
-                <Switch>
-                  <Route path="/" component={Home} />
-                </Switch>
+                <Routes>
+                  <Route path="/" element={<Home/>}/>
+                </Routes>
               </div>
             </div>
-          </BrowserRouter> */}
+          </BrowserRouter>
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
