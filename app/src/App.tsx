@@ -9,6 +9,7 @@ import { clusterApiUrl } from "@solana/web3.js";
 // Components
 import { Header } from "./components/Header";
 import { Home } from "./pages/Home/Home";
+import {Signup} from "./pages/Signup/Signup"
 
 // Wallet-Adapter
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
@@ -52,9 +53,10 @@ function App() {
           <BrowserRouter>
             <div className="App font-sans bg-gray-100">
               <Header/>
-              <div className="h-screen max-w-screen-xl mx-auto bg-gray-100">
+              <div className="max-w-screen-xl mx-auto bg-gray-100">
                 <Routes>
                   <Route path="/" element={<Home/>}/>
+                  <Route path="/welcome" element={<Signup/>}/>
                 </Routes>
               </div>
             </div>

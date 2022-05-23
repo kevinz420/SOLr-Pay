@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import empty from "../../assets/empty.png";
 import { Tab } from "@headlessui/react";
-import { UserIcon, UsersIcon } from "@heroicons/react/solid";
+import { GlobeIcon, UsersIcon } from "@heroicons/react/solid";
 
 function classNames(...classes: string[]){
     return classes.filter(Boolean).join(' ')
@@ -25,7 +25,7 @@ export const Home: React.FC = () => {
                     : 'hover:bg-gray-200'
                 )
               }>
-                  <UsersIcon className="w-6 mx-auto"/>
+                  <GlobeIcon className="w-6 mx-auto"/>
               </Tab>
             <Tab key="individual" className={({ selected }) =>
                 classNames(
@@ -35,7 +35,7 @@ export const Home: React.FC = () => {
                     ? 'bg-white shadow'
                     : 'hover:bg-gray-200'
                 )
-              }><UserIcon className="w-6 mx-auto"/></Tab>
+              }><UsersIcon className="w-6 mx-auto"/></Tab>
           </Tab.List>
         </Tab.Group>
         </div>
