@@ -38,8 +38,9 @@ pub enum SolrInstruction {
     ///   0. `[writable, signer]` user
     ///   1. `[writable]` (PDA) username account
     ///   2. `[writable]` (PDA) wallet account
-    ///   3. `[]` system program
-    ///   4. `[]` sysvar rent
+    ///   3. '[writable]' (PDA) new username account
+    ///   4. `[]` system program
+    ///   5. `[]` sysvar rent
     ///
     ChangeUsername { username: String },
     
@@ -52,6 +53,7 @@ pub enum SolrInstruction {
     ///
     ///   0. `[writable, signer]` user
     ///   1. `[writable]` (PDA) wallet account
+    ///   2. '[]' system program
     ///
     ChangePfp { pfp_cid: u64 },
 
@@ -63,7 +65,7 @@ pub enum SolrInstruction {
     /// Accounts expected by this instruction:
     ///
     ///   0. `[writable, signer]` user
-    ///   1. `[writable]` (PDA) wallet account
+    ///   1. `[writable]` (PDA) wallet account  ***quick note: not sure if this needs to be signer, since it owns friend acc
     ///   2. `[writable]` (PDA) friend account
     ///   3. `[]` system program
     ///   4. `[]` sysvar rent
@@ -80,6 +82,8 @@ pub enum SolrInstruction {
     ///   0. `[writable, signer]` user
     ///   1. `[writable]` (PDA) wallet account
     ///   2. `[writable]` (PDA) friend account
+    ///   3. '[]' system program
+    ///   4. '[]' sysvar rent
     ///
     Unfollow { friend: Pubkey },
 
@@ -93,7 +97,7 @@ pub enum SolrInstruction {
     ///   0. `[writable, signer]` user
     ///   1. `[]` payee
     ///   2. `[writable]` (PDA) wallet account
-    ///   3. `[writable]` (PDA) transaction account
+    ///   3. `[writable]` transaction account
     ///   4. `[]` system program
     ///   5. `[]` sysvar rent
     ///   6. `[]` solana token program
