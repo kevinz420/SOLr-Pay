@@ -20,7 +20,6 @@ pub enum SolrInstruction {
     ///   1. `[writable]` (PDA) username account
     ///   2. `[writable]` (PDA) wallet account
     ///   3. `[]` system program
-    ///   4. `[]` sysvar rent
     ///
     Initialize {
          username: String,
