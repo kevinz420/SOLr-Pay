@@ -35,17 +35,17 @@ describe('solrpay', () => {
             solrProgram.programId
         );
     
-    // await solrProgram.methods
-    //     .initialize(
-    //         "varun", 
-    //         pfp,
-    //     )
-    //     .accounts({
-    //         nickname: nickPDA,
-    //         profile: profilePDA,
-    //         user: signer.publicKey,
-    //     })
-    //     .rpc();
+    await solrProgram.methods
+        .initialize(
+            "varun", 
+            pfp,
+        )
+        .accounts({
+            nickname: nickPDA,
+            profile: profilePDA,
+            user: signer.publicKey,
+        })
+        .rpc();
 
     let nameState = await solrProgram.account.nameKey.fetch(nickPDA);
     expect(nameState.address.toBytes).to.equal(signer.publicKey.toBytes);
@@ -55,7 +55,8 @@ describe('solrpay', () => {
 
 
     let walletState = await solrProgram.account.wallet.fetch(profilePDA);
-    expect(walletState.count).to.equal(0);
+    expect(walletState.transactionCount).to.equal(0);
+    expect(walletState.friendCount).to.equal(0);
     //expect(walletState.pfpCid).to.equal(pfp);
 
     console.log("pfp_cid:", walletState.pfpCid);

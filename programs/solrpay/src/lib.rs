@@ -3,7 +3,7 @@ use crate::error::InputError;
 
 pub mod error;
 
-declare_id!("8ekDjd1RemNX4QVutveycGgnYELNA4PVnUZazWNP5CGT");
+declare_id!("J6Zcv8Ha8pAwsiF9EpV3CPnksh84BRnufqKoLrMAJYyN");
 
 #[program]
 pub mod solrpay {
@@ -18,7 +18,8 @@ pub mod solrpay {
         let wallet = &mut ctx.accounts.profile;
         wallet.username = _uname;
         wallet.pfp_cid = _pfp;
-        wallet.count = 0;
+        wallet.transaction_count = 0;
+        wallet.friend_count = 0;
         Ok(())
     }
 
@@ -36,7 +37,8 @@ pub struct NameKey {
 pub struct Wallet {
     username: String,
     pfp_cid: Vec<u8>,
-    count: u32,
+    transaction_count: u32,
+    friend_count: u16,
 }
 
 #[derive(Accounts)]
@@ -56,7 +58,7 @@ pub struct Initialize<'info> {
             8 + 
             4 + _uname.len() + //username space
             4 + _pfp.len() +  //pfp_cid space
-            4 + 4,            //u32 space
+            4 + 4,            //count space + 2 bytes
         seeds = [b"wallet", user.key().as_ref()], bump
     )]
     pub profile: Account<'info, Wallet>,
