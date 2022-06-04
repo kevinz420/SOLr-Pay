@@ -8,8 +8,10 @@ import { clusterApiUrl } from "@solana/web3.js";
 
 // Components
 import { Header } from "./components/Header";
-import { Home } from "./pages/Home/Home";
-import {Signup} from "./pages/Signup/Signup"
+import { Home } from "./pages/Home";
+import {Signup} from "./pages/Signup"
+import { Settings } from "./pages/Settings";
+import { Profile } from "./pages/Profile"
 
 // Wallet-Adapter
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
@@ -57,6 +59,8 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home/>}/>
                   <Route path="/welcome" element={<Signup/>}/>
+                  <Route path="/settings" element={<Settings/>}/>
+                  <Route path="/:handle" element={<Profile/>}/>
                 </Routes>
               </div>
             </div>
