@@ -1,9 +1,9 @@
 import {configureStore} from '@reduxjs/toolkit'
-import listingSlice from '../features/listings-slice'
+import userSlice from '../features/user-slice'
 
 export const store = configureStore ({
     reducer: {
-        listings : listingSlice
+        user : userSlice
     }
 })
 

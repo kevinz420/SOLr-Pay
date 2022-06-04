@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import empty from "../../assets/empty.png";
+import React from "react";
+import empty from "../assets/empty.png";
 import { Tab } from "@headlessui/react";
 import { GlobeIcon, UsersIcon } from "@heroicons/react/solid";
 
