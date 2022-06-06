@@ -6,4 +6,6 @@ pub enum InputError {
     AccountDuplicate,
     #[msg("Username too long.")]
     LongNickname,
+    #[msg("Profile Pic has oversized byte array")]
+    LongPfp,
 }

@@ -5,7 +5,7 @@ pub mod error;
 pub mod instructions;
 pub mod state;
 
-declare_id!("2EfZqJz8DaDWdiB8oNGTYWjgKbsgNEuSKzg2EN6DqbeN");
+declare_id!("G2FrpvYmW4z8uTts7JC38ucDQ9UqEnn2jEv3XwP7tngB");
 
 #[program]
 pub mod solrpay {
@@ -15,36 +15,11 @@ pub mod solrpay {
         instructions::initialize::initialize(ctx, _uname, _pfp)
     }
 
-    // pub fn change_username(ctx: Context<>, _uname: String) -> Result<()> {
-    //     if (_uname.len()) >= 12 {
-    //         return err!(InputError::LongNickname);
-    //     }
-    // }
-}
+    pub fn change_username(ctx: Context<ChangeUsername>, _uname: String) -> Result<()> {
+        instructions::changename::change_username(ctx, _uname)
+    }
 
-// #[derive(Accounts)]
-// #[instruction(_uname: String)]
-// pub struct ChangeUsername<'info> {
-//     #[account(
-//         mut,
-//         close = user,
-//         seeds = [b"username", profile.username.as_bytes()], bump
-//     )]
-//     pub nickname: Account<'info, NameKey>,
-//     #[account(
-//         mut,
-//         seeds = [b"wallet", user.key().as_ref()], bump
-//     )]
-//     pub profile: Account<'info, Wallet>,
-//     #[account(
-//         init,
-//         payer = user,
-//         space = 8 + 32,
-//         seeds = [b"username", _uname.as_bytes()], bump
-//     )]
-//     pub new_nickname: Account<'info, NameKey>,
-//     #[account(mut)]
-//     pub user: Signer<'info>,
-//     pub system_program: Program<'info, System>,
-//     pub sysvar_rent: Program<'info, Rent>,
-// }
+    pub fn change_pfp(ctx: Context<ChangePfp>, _pfp: Vec<u8>) -> Result<()> {
+        instructions::changepfp::change_pfp(ctx, _pfp)
+    }
+}

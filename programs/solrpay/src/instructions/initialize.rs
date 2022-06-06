@@ -5,7 +5,7 @@ use anchor_lang::prelude::*;
 use crate::error::InputError;
 
 pub fn initialize(ctx: Context<Initialize>, _uname: String, _pfp: Vec<u8>) -> Result<()> {
-    if (_uname.len()) >= 15 {
+    if (_uname.len()) > 15 {
         return err!(InputError::LongNickname);
     }
     ctx.accounts.nickname.create_nickname(ctx.accounts.user.key())?;

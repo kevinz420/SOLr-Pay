@@ -60,7 +60,7 @@ describe('solrpay', () => {
     //expect(walletState.pfpCid).to.equal(pfp);
 
     console.log("pfp_cid:", walletState.pfpCid);
-    console.log("actual pfp:", pfp);
+    console.log("actual_pfp:", pfp);
 
     expect(walletState.username).to.equal(nick);
   });
