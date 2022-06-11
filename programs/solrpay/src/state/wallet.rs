@@ -36,4 +36,9 @@ impl Wallet {
         self.pfp_cid = pfp;
         Ok(())
     }
+
+    pub fn incr_friends(&mut self) -> Result<()> {
+        self.friend_count += 1;
+        Ok(())
+    }
 }

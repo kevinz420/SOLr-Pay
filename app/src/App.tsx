@@ -12,6 +12,7 @@ import { Home } from "./pages/Home";
 import {Signup} from "./pages/Signup"
 import { Settings } from "./pages/Settings";
 import { Profile } from "./pages/Profile"
+import { Payment } from "./pages/Payment/Payment"
 
 // Wallet-Adapter
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
@@ -59,6 +60,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home/>}/>
                   <Route path="/welcome" element={<Signup/>}/>
+                  <Route path="/payment" element={<Payment/>}/>
                   <Route path="/settings" element={<Settings/>}/>
                   <Route path="/:handle" element={<Profile/>}/>
                 </Routes>

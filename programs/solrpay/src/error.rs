@@ -8,4 +8,6 @@ pub enum InputError {
     LongNickname,
     #[msg("Profile Pic has oversized byte array")]
     LongPfp,
+    #[msg("This account could not be found")]
+    AccountNotFound,
 }
