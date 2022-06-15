@@ -17,7 +17,7 @@ describe('solrpay', () => {
   it('initialize!', async () => {
     const signer = solrProvider.wallet;
 
-    const [nickPDA, nickBump] = await PublicKey
+    const [nickPDA, ] = await PublicKey
         .findProgramAddress(
             [
                 anchor.utils.bytes.utf8.encode("username"),
@@ -26,11 +26,21 @@ describe('solrpay', () => {
             solrProgram.programId
         );
 
-    const [profilePDA, _] = await PublicKey
+    const [profilePDA, ] = await PublicKey
         .findProgramAddress(
             [
                 anchor.utils.bytes.utf8.encode("wallet"),
                 provider.wallet.publicKey.toBuffer(),
+            ],
+            solrProgram.programId
+        );
+
+    const [friendPDA, ] = await PublicKey
+        .findProgramAddress(
+            [
+                anchor.utils.bytes.utf8.encode("friend"),
+                profilePDA.toBuffer(),
+                new anchor.BN(0).toArrayLike(Buffer, 'le')
             ],
             solrProgram.programId
         );
@@ -44,6 +54,7 @@ describe('solrpay', () => {
             nickname: nickPDA,
             profile: profilePDA,
             user: signer.publicKey,
+            friend: friendPDA
         })
         .rpc();
 

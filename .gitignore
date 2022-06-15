@@ -1,4 +1,5 @@
 *.lock
+Anchor.toml
 .anchor
 .DS_Store
 target

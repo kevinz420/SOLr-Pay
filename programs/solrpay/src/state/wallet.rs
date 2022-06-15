@@ -41,4 +41,13 @@ impl Wallet {
         self.friend_count += 1;
         Ok(())
     }
+
+    pub fn decr_friends(&mut self) -> Result<()> {
+        self.friend_count -= 1;
+        Ok(())
+    }
+
+    pub fn get_fcount(&self) -> Result<u16> {
+        Ok(self.friend_count)
+    }
 }

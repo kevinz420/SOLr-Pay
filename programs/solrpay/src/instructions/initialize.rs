@@ -1,5 +1,6 @@
 use crate::state::nickname::*;
 use crate::state::wallet::*;
+use crate::state::friend::*;
 
 use anchor_lang::prelude::*;
 use crate::error::InputError;
@@ -10,6 +11,7 @@ pub fn initialize(ctx: Context<Initialize>, _uname: String, _pfp: Vec<u8>) -> Re
     }
     ctx.accounts.nickname.create_nickname(ctx.accounts.user.key())?;
     ctx.accounts.profile.create_wallet(_uname, _pfp)?;
+    ctx.accounts.friend.initialize()?;
     Ok(())
 }
 
@@ -30,6 +32,13 @@ pub struct Initialize<'info> {
         seeds = ["wallet".as_bytes(), user.key().as_ref()], bump
     )]
     pub profile: Account<'info, Wallet>,
+    #[account(
+        init,
+        payer = user,
+        space = 8 + 4,
+        seeds = ["friend".as_bytes(), profile.key().as_ref(), &[0]], bump
+    )]
+    pub friend: Account<'info, Friend>,
     #[account(mut)]
     pub user: Signer<'info>,
     pub system_program: Program<'info, System>,
