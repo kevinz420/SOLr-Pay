@@ -6,7 +6,7 @@ pub struct Friend {
 }
 
 impl Friend {
-    pub const STATIC_SIZE: u16 = 8 + 32;
+    pub const STATIC_SIZE: usize = 8 + 4;
     
     pub fn initialize(&mut self) -> Result<()> {
         self.friends = Vec::new();

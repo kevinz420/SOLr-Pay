@@ -35,7 +35,7 @@ pub struct Initialize<'info> {
     #[account(
         init,
         payer = user,
-        space = 8 + 4,
+        space = Friend::STATIC_SIZE,
         seeds = ["friend".as_bytes(), profile.key().as_ref(), &[0]], bump
     )]
     pub friend: Account<'info, Friend>,

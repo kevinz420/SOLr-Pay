@@ -5,7 +5,7 @@ pub mod error;
 pub mod instructions;
 pub mod state;
 
-declare_id!("5SChqz4YDGnrpto3jHTuzPYyvbcMcVwFDJ3EGzi3aX3L");
+declare_id!("7Ma6sYtBZo5NSWZTVKiGxgL3Cn1f389s8Bwkg6JC2Z1r");
 
 #[program]
 pub mod solrpay {

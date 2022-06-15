@@ -10,7 +10,7 @@ pub struct Transaction {
 
 impl Transaction {
     // discriminator - 8 bytes
-    pub const STATIC_SIZE: usize = 8 + 32 + 8 + 8 + 4;
+    pub const STATIC_SIZE: usize = 8 + 32 + 8 + 8 + 4 + 2;  //added 2 bytes for testing, see if they can be removed later
     
     pub fn initialize(&mut self, _payee: Pubkey, _amount: u64, _content: String) -> Result<()> {
         let clock: Clock = Clock::get()?;

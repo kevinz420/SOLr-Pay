@@ -22,7 +22,7 @@ pub fn pay(ctx: Context<Pay>, amount: u64, content: String) -> Result<()> {
 }
 
 #[derive(Accounts)]
-#[instruction(content: String)]
+#[instruction(amount: u64, content: String)]
 pub struct Pay<'info> {
     #[account(mut)]
     pub from: Signer<'info>,

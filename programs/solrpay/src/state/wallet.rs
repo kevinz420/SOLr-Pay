@@ -47,7 +47,7 @@ impl Wallet {
         Ok(())
     }
 
-    pub fn get_fcount(&self) -> Result<u16> {
-        Ok(self.friend_count)
+    pub fn get_fcount(&self) -> u16 {
+        self.friend_count
     }
 }

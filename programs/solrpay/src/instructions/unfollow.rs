@@ -14,23 +14,22 @@ pub fn unfollow(ctx: Context<Unfollow>, friend: Pubkey) -> Result<()> {
 pub struct Unfollow<'info> {
     #[account(
         mut,
-        seeds = [b"wallet", user.key().as_ref()],
-        constraint = profile.get_fcount()? > 0,
-        bump
+        constraint = profile.get_fcount() > 0,
+        seeds = ["wallet".as_bytes(), user.key().as_ref()], bump
     )]
     pub profile: Account<'info, Wallet>,
     #[account(
         mut,
         close = user,
-        seeds = [b"friend", profile.key().as_ref(), &[profile.get_fcount()? as u8]],
+        seeds = ["friend".as_bytes(), profile.key().as_ref(), &[profile.get_fcount() as u8]],
         bump
     )]
     pub old_pda: Account<'info, Friend>,
     #[account(
         init,
         payer = user,
-        space = (Friend::STATIC_SIZE + (profile.get_fcount()? - 1) * 32).into(),
-        seeds = [b"friend", profile.key().as_ref(), &[(profile.get_fcount()? - 1) as u8]],
+        space = Friend::STATIC_SIZE + (32*(profile.get_fcount() - 1) as usize),
+        seeds = ["friend".as_bytes(), profile.key().as_ref(), &[(profile.get_fcount() - 1) as u8]],
         bump
     )]
     pub friend_pda: Account<'info, Friend>,
