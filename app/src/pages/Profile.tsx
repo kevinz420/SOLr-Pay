@@ -16,8 +16,8 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
   const navigate = useNavigate()
 
   return (
-    <div className="h-screen">
-      <div className="rounded-xl p-8 py-16 mt-20 flex justify-start items-center gap-5 bg-gray-800 w-3/4 m-auto flex-col">
+    <div className="min-h-screen">
+      <div className="rounded-xl p-8 py-16 my-20 flex justify-start items-center gap-5 bg-gray-800 w-3/4 mx-auto flex-col">
         <div className="flex gap-12 mb-14">
           <img src={user.pfpURL} className="rounded-full w-36 h-36 outline outline-white" />
           <div className="flex flex-col">
@@ -50,6 +50,6 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
           </h1>
         </div>
       </div>
-    </div>
+      </div>
   );
 };

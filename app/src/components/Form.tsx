@@ -46,7 +46,7 @@ export const Form: React.FC<FormProps> = (props) => {
   }
 
   return (
-    <div className="pt-14 flex gap-3 bg-gray-800 w-1/2 h-3/5 items-center rounded-xl flex-col overflow-hidden">
+    <div className="py-14 flex gap-3 bg-gray-800 w-1/2 items-center rounded-xl flex-col h-max">
       <div className="flex gap-10 mb-8 justify-center items-start">
         <div className="flex justify-center items-center">
           <label className={classNames(validate && image === "" ? "border-4 border-red-400" : "border-2 border-gray-300", "w-28 h-28 rounded-full flex flex-col justify-center items-center bg-gray-700  cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600")}>
@@ -57,7 +57,7 @@ export const Form: React.FC<FormProps> = (props) => {
                   <PlusCircleIcon className={classNames(validate && image === "" ? "text-red-400" : "text-slate-50", "absolute bottom-1 left-20 w-8 h-8")} />
                 </>
               ) : (
-                <img src={image} className="rounded-full" />
+                <img src={image} className="rounded-full w-28 h-28 object-cover" />
               )}
             </div>
             <input

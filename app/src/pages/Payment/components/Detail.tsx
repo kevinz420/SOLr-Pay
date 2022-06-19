@@ -21,7 +21,7 @@ export const Detail: React.FC<DetailProps> = ({}) => {
   };
 
   return (
-    <div className="rounded-xl p-8 mt-20 flex justify-start items-center gap-10 bg-gray-800 w-4/12 h-1/2 flex-col">
+    <div className="rounded-xl p-8 mt-20 flex justify-start items-center gap-10 bg-gray-800 w-4/12 flex-col h-fit">
       <img src={solana} className="w-14" />
 
       <div className="w-3/5">

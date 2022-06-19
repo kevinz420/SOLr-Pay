@@ -7,7 +7,7 @@ interface PaymentProps {
 }
 
 export const Payment: React.FC<PaymentProps> = ({}) => {
-        return (<div className="h-screen flex justify-center gap-5">
+        return (<div className="min-h-screen flex justify-center gap-5">
             <Search/>
             <Detail/>
         </div>);

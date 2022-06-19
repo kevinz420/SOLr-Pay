@@ -9,8 +9,8 @@ function classNames(...classes: string[]){
 
 export const Home: React.FC = () => {
   return (
-    <>
-      <div className="p-5 pt-12 flex justify-between items-center">
+    <div className="h-screen">
+      <div className="p-5 pt-12 flex justify-between">
         <h1 className="text-4xl font-medium">Transaction Feed</h1>
         
         <div className="bg-gray-300 rounded-xl">
@@ -41,13 +41,13 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-36 flex justify-start items-center h-screen flex-col gap-16">
-        <img src={empty} alt="" className="w-2/6" />
+      <div className="mt-24 flex justify-start items-center flex-col gap-16">
+        <img src={empty} alt="" className="w-1/4" />
         <h1 className="text-2xl text-gray-500">
           Ready for takeoff. Start exploring the Solr system by making your
           first payment.
         </h1>
       </div>
-    </>
+    </div>
   );
 };
