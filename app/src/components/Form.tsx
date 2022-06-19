@@ -3,6 +3,8 @@ import { UserIcon, PlusCircleIcon } from "@heroicons/react/solid";
 import { Button } from "./Button";
 import { Card } from "./Card";
 import { useAppSelector } from '../redux/app/hooks'
+import initialize from "../utils/initialize";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -10,6 +12,7 @@ function classNames(...classes: string[]) {
 
 interface FormProps {
   submitText: string;
+  initialize: boolean;
 }
 
 export const Form: React.FC<FormProps> = (props) => {
@@ -17,6 +20,8 @@ export const Form: React.FC<FormProps> = (props) => {
   const [image, setImage] = useState(user.pfpURL);
   const [validate, setValidate] = useState(false);
   const username = useRef<HTMLInputElement>(null);
+  const wallet = useWallet()
+  const connection = useConnection()
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files === null) return;
@@ -27,13 +32,17 @@ export const Form: React.FC<FormProps> = (props) => {
     setImage(img);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (image === "" || username.current!.value === "") {
       setValidate(true);
       return
     }
 
-    // create accounts
+    try {
+      if (props.initialize) await initialize("varun", Buffer.from([1, 2, 3]), wallet, connection.connection)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
