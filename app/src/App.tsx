@@ -2,8 +2,9 @@
 import "@solana/wallet-adapter-react-ui/styles.css";
 import "flowbite";
 
+import { useAppSelector } from "./redux/app/hooks";
 import { useMemo } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { clusterApiUrl } from "@solana/web3.js";
 
 // Components
@@ -31,11 +32,12 @@ import {
   TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 
+// below is mostly magical wallet routing stuff
 function App() {
-  // 'devnet', 'testnet', or 'mainnet-beta'
-  const network = WalletAdapterNetwork.Devnet;
+  const network = WalletAdapterNetwork.Devnet; // 'devnet', 'testnet', or 'mainnet-beta'
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-
+  const user = useAppSelector((state) => state.user);
+  
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
@@ -48,7 +50,7 @@ function App() {
     ],
     [network]
   );
-
+  
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
@@ -59,9 +61,10 @@ function App() {
               <div className="max-w-screen-xl mx-auto bg-gray-100">
                 <Routes>
                   <Route path="/" element={<Home/>}/>
-                  <Route path="/welcome" element={<Signup/>}/>
-                  <Route path="/payment" element={<Payment/>}/>
-                  <Route path="/settings" element={<Settings/>}/>
+                  <Route path="/welcome" element={user.username === "" ? <Signup/> : <Navigate to="/settings" />}/>
+                  <Route path="/welcome" element={ user.username === "" ? <Signup/> : <Navigate to="/settings" />}/> 
+                  <Route path="/payment" element={ user.username === "" ? <Navigate to="/welcome" /> : <Payment /> }/>
+                  <Route path="/settings" element={ user.username === "" ? <Navigate to="/welcome" /> : <Settings/>}/>
                   <Route path="/:handle" element={<Profile/>}/>
                 </Routes>
               </div>

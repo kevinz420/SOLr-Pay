@@ -32,7 +32,7 @@ export default async function initialize(username: string, pfp: Buffer, wallet: 
     ],
     program.programId
   );
-
+  
   await program.methods
     .initialize(username, pfp)
     .accounts({

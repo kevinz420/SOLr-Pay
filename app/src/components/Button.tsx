@@ -5,7 +5,7 @@ function classNames(...classes: string[]) {
 }
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-  color: "primary" | "secondary";
+  color: "primary" | "secondary"; // primary is dark gray button, secondary is green button
 }
 
 export const Button: React.FC<ButtonProps> = (props) => {

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Button } from "../../../components/Button";
-import solana from "../../../assets/solana.png"
+import ufo from "../../../assets/ufo.png"
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -22,7 +22,7 @@ export const Detail: React.FC<DetailProps> = ({}) => {
 
   return (
     <div className="rounded-xl p-8 mt-20 flex justify-start items-center gap-10 bg-gray-800 w-4/12 flex-col h-fit">
-      <img src={solana} className="w-14" />
+      <img src={ufo} className="w-20" />
 
       <div className="w-3/5">
         <input
@@ -40,7 +40,7 @@ export const Detail: React.FC<DetailProps> = ({}) => {
       
       <textarea
         id="message"
-        rows={7}
+        rows={3}
         className="block p-3 text-med text-white bg-gray-700 rounded-lg outline-0 resize-none w-11/12"
         placeholder="What's it for?"
       ></textarea>

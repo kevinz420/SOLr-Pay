@@ -2,17 +2,22 @@ import React, { useState, useRef } from "react";
 import { UserIcon, PlusCircleIcon } from "@heroicons/react/solid";
 import { Button } from "./Button";
 import { Card } from "./Card";
-import { useAppSelector } from '../redux/app/hooks'
+import { useAppDispatch, useAppSelector } from '../redux/app/hooks'
+import { useNavigate } from "react-router-dom";
+import { update } from "../redux/features/user-slice";
+
 import initialize from "../utils/initialize";
+import getWallet from "../utils/get-wallet";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { create } from "ipfs-http-client";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 interface FormProps {
-  submitText: string;
-  initialize: boolean;
+  submitText: string; // submit button text
+  initialize: boolean; // T/F depending on whether the form is being used to initialize or to modify profile
 }
 
 export const Form: React.FC<FormProps> = (props) => {
@@ -20,9 +25,14 @@ export const Form: React.FC<FormProps> = (props) => {
   const [image, setImage] = useState(user.pfpURL);
   const [validate, setValidate] = useState(false);
   const username = useRef<HTMLInputElement>(null);
+  
   const wallet = useWallet()
   const connection = useConnection()
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch();
+  const client = create({url: 'https://ipfs.infura.io:5001/api/v0'});
 
+  // sets preview image with uploaded file
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files === null) return;
 
@@ -32,14 +42,29 @@ export const Form: React.FC<FormProps> = (props) => {
     setImage(img);
   };
 
+  // logic for creating/updating profile information
   const handleSubmit = async () => {
     if (image === "" || username.current!.value === "") {
-      setValidate(true);
+      setValidate(true); // ensures both image and username fields are filled
       return
     }
 
     try {
-      if (props.initialize) await initialize("varun", Buffer.from([1, 2, 3]), wallet, connection.connection)
+      let pfpURL
+
+      if (props.initialize) {
+        let file = await fetch(image).then(r => r.blob()).then(blobFile => new File([blobFile], "pfp", { type: "image/png" }))
+        const created = await client.add(file)
+        pfpURL = `https://ipfs.infura.io/ipfs/${created.path}`
+        await initialize(username.current!.value, Buffer.from(created.path), wallet, connection.connection)
+      } else {
+        pfpURL = ""
+      }
+
+      // update username/pfp stored in redux
+      const walletState = await getWallet(wallet, connection.connection);
+      dispatch(update({ username: walletState.username as string, pfpURL}));
+      navigate('/')
     } catch (err) {
       console.log(err)
     }

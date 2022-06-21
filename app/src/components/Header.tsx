@@ -3,16 +3,18 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { SwitchHorizontalIcon } from "@heroicons/react/solid";
 import { Button } from "./Button";
 import logo from "../assets/logo.svg";
-import pfp from "../assets/pfp.jpeg";
+import ufo from "../assets/ufo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useAppSelector, useAppDispatch } from "../redux/app/hooks";
+import { update } from "../redux/features/user-slice";
+import { Input } from "./Input";
+
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import {
   WalletMultiButton,
   WalletDisconnectButton,
 } from "@solana/wallet-adapter-react-ui";
-import { useAppSelector, useAppDispatch } from "../redux/app/hooks";
-import { update } from "../redux/features/user-slice";
-import { Input } from "./Input";
+import getWallet from "../utils/get-wallet";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -22,19 +24,31 @@ export const Header: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const wallet = useWallet();
+  const connection = useConnection();
   const user = useAppSelector((state) => state.user);
 
-  const getUser = () => {
-    // find wallet PDA to extract username and pfp CID
-    // convert CID into IPFS URL
-    return wallet.connected
-      ? { username: "bluebear", pfpURL: pfp }
-      : { username: "", pfpURL: "" };
+  // logic for getting a users username and pfp URL
+  const getUser = async () => {
+    if (!wallet.connected) return { username: "", pfpURL: "" };
+
+    try {
+      const walletState = await getWallet(wallet, connection.connection);
+      const pfpURL = `https://ipfs.infura.io/ipfs/${(walletState.pfpCid as Uint8Array).toString()}`
+      return { username: walletState.username as string, pfpURL}
+    } catch {
+      // if new user we set empty strings for username and pfp
+      navigate("/welcome")
+      return { username: "", pfpURL: "" };
+    }
   };
 
+  // runs `getUser` on wallet change
   useEffect(() => {
-    const user = getUser();
-    dispatch(update(user));
+    const fetchData = async () => {
+      const user = await getUser(); 
+      dispatch(update(user));
+    }
+    fetchData();
   }, [wallet]);
 
   return (
@@ -93,7 +107,7 @@ export const Header: React.FC = () => {
                   <span className="sr-only">Open user menu</span>
                   <img
                     className="h-10 w-10 rounded-full"
-                    src={user.pfpURL}
+                    src={user.pfpURL === "" ? ufo : user.pfpURL}
                     alt=""
                   />
                 </Menu.Button>
