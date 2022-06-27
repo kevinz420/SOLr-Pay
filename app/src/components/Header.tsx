@@ -15,6 +15,8 @@ import {
   WalletDisconnectButton,
 } from "@solana/wallet-adapter-react-ui";
 import getWallet from "../utils/get-wallet";
+import { PublicKey } from "@solana/web3.js";
+import getFriends from "../utils/get-friends";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -29,27 +31,29 @@ export const Header: React.FC = () => {
 
   // logic for getting a users username and pfp URL
   const getUser = async () => {
-    if (!wallet.connected) return { username: "", pfpURL: "" };
+    if (!wallet.connected) return { username: "", pfpURL: "", friends: []};
 
     try {
       const walletState = await getWallet(wallet, connection.connection);
+      const friendState = await getFriends(wallet, connection.connection, walletState.friendCount as number, wallet.publicKey!);
+      const friends = (friendState.friends as Array<PublicKey>).map(f => f.toString())
       const pfpURL = `https://ipfs.infura.io/ipfs/${(walletState.pfpCid as Uint8Array).toString()}`
-      return { username: walletState.username as string, pfpURL}
+      
+      return { username: walletState.username as string, pfpURL, friends}
     } catch {
       // if new user we set empty strings for username and pfp
       navigate("/welcome")
-      return { username: "", pfpURL: "" };
+      return { username: "", pfpURL: "", friends: []};
     }
   };
 
   // runs `getUser` on wallet change
   useEffect(() => {
-    const fetchData = async () => {
-      const user = await getUser(); 
-      dispatch(update(user));
-    }
-    fetchData();
-  }, [wallet]);
+    (async () => {
+      const data = await getUser(); 
+      dispatch(update(data));
+    })()
+  }, [wallet.connected]);
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -125,7 +129,7 @@ export const Header: React.FC = () => {
                   <Menu.Item>
                     {({ active }) => (
                       <Link
-                        to={`/${user.username}`}
+                        to={`/users/${user.username}`}
                         className={classNames(
                           active ? "bg-gray-100" : "",
                           "block px-4 py-2 text-sm text-gray-700"

@@ -7,7 +7,7 @@ function classNames(...classes: string[]){
     return classes.filter(Boolean).join(' ')
   }
 
-export const Home: React.FC = () => {
+export const Home: React.FC = () => {  
   return (
     <div className="h-screen">
       <div className="p-5 pt-12 flex justify-between">

@@ -3,13 +3,17 @@ import { UserIcon, PlusCircleIcon } from "@heroicons/react/solid";
 import { Button } from "./Button";
 import { Card } from "./Card";
 import { useAppDispatch, useAppSelector } from '../redux/app/hooks'
-import { useNavigate } from "react-router-dom";
 import { update } from "../redux/features/user-slice";
+import { Toast } from "../components/Toast";
 
 import initialize from "../utils/initialize";
 import getWallet from "../utils/get-wallet";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { create } from "ipfs-http-client";
+import getFriends from "../utils/get-friends";
+import { PublicKey } from "@solana/web3.js";
+import getUser from "../utils/get-user";
+import editProfile from "../utils/edit-profile";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -25,10 +29,10 @@ export const Form: React.FC<FormProps> = (props) => {
   const [image, setImage] = useState(user.pfpURL);
   const [validate, setValidate] = useState(false);
   const username = useRef<HTMLInputElement>(null);
-  
+  const [toast, setToast] = useState({ visible: false, isSuccess: true, text: "" });
+
   const wallet = useWallet()
   const connection = useConnection()
-  const navigate = useNavigate()
   const dispatch = useAppDispatch();
   const client = create({url: 'https://ipfs.infura.io:5001/api/v0'});
 
@@ -42,31 +46,52 @@ export const Form: React.FC<FormProps> = (props) => {
     setImage(img);
   };
 
-  // logic for creating/updating profile information
   const handleSubmit = async () => {
+    // ensure both image and username fields are filled
     if (image === "" || username.current!.value === "") {
-      setValidate(true); // ensures both image and username fields are filled
+      setValidate(true); 
       return
     }
 
-    try {
-      let pfpURL
+    // ensure username not taken
+    if (username.current!.value !== user.username) {
+      try { 
+        await getUser(wallet, connection.connection, username.current!.value) 
+        setToast({ visible: true, isSuccess: false, text: "Username already in use." });
+        return
+      } catch {}
+    }
 
-      if (props.initialize) {
+    let pfpURL = user.pfpURL
+    let cid = ""
+
+    try {
+      // send new image to IPFS if one is uploaded
+      if (image !== user.pfpURL) {
         let file = await fetch(image).then(r => r.blob()).then(blobFile => new File([blobFile], "pfp", { type: "image/png" }))
         const created = await client.add(file)
+        cid = created.path
         pfpURL = `https://ipfs.infura.io/ipfs/${created.path}`
-        await initialize(username.current!.value, Buffer.from(created.path), wallet, connection.connection)
-      } else {
-        pfpURL = ""
       }
 
-      // update username/pfp stored in redux
+      if (props.initialize) {
+        await initialize(username.current!.value, Buffer.from(cid), wallet, connection.connection)
+      // we only want to edit profile if either username or pfp is modified
+      } else if (username.current!.value !== user.username || image !== user.pfpURL) {
+        const newUser = username.current!.value === user.username ? undefined : username.current!.value
+
+        await editProfile(wallet, connection.connection, newUser, user.username, cid === "" ? undefined : Buffer.from(cid))
+      }
+
+      // update username/pfp/friends stored in redux
       const walletState = await getWallet(wallet, connection.connection);
-      dispatch(update({ username: walletState.username as string, pfpURL}));
-      navigate('/')
-    } catch (err) {
-      console.log(err)
+      const friendState = await getFriends(wallet, connection.connection, walletState.friendCount as number, wallet.publicKey!);
+      const friends = (friendState.friends as Array<PublicKey>).map(f => f.toString())
+
+      setToast({ visible: true, isSuccess: true, text: "Profile successfully updated." });
+      dispatch(update({ username: walletState.username as string, pfpURL, friends}));
+    } catch {
+      setToast({ visible: true, isSuccess: false, text: "Please try again." });
     }
   }
 
@@ -145,6 +170,7 @@ export const Form: React.FC<FormProps> = (props) => {
           <div className="mb-3 h-3 w-20 bg-slate-800"></div>
         </div>
       </Card>
+      <Toast toast={toast} setToast={setToast} />
     </div>
   );
 };

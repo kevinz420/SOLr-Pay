@@ -9,5 +9,5 @@ const programID = new PublicKey(idl.metadata.address);
 export default async function getProgram( wallet: WalletContextState, connection: Connection) {
     const provider = await getProvider(wallet, connection);
     
-    return new Program(<Idl>idl, programID, provider);
+    return new Program(idl as Idl, programID, provider);
   }
