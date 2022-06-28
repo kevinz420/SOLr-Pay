@@ -62,7 +62,6 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home/>}/>
                   <Route path="/welcome" element={user.username === "" ? <Signup/> : <Navigate to="/settings" />}/>
-                  <Route path="/welcome" element={ user.username === "" ? <Signup/> : <Navigate to="/settings" />}/> 
                   <Route path="/payment" element={ user.username === "" ? <Navigate to="/welcome" /> : <Payment /> }/>
                   <Route path="/settings" element={ user.username === "" ? <Navigate to="/welcome" /> : <Settings/>}/>
                   <Route path="/users/:handle" element={<Profile/>}/>
