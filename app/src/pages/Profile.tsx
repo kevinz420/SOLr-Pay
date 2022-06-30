@@ -4,7 +4,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "../components/Button";
 import { Toast } from "../components/Toast";
 import planet from "../assets/planet.png";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { UserAddIcon, UserRemoveIcon } from "@heroicons/react/solid";
 import getWallet from "../utils/get-wallet";
 import getUsername from "../utils/get-user";
@@ -14,9 +14,7 @@ import unfollow from "../utils/unfollow";
 import { update } from "../redux/features/user-slice";
 import getFriends from "../utils/get-friends";
 
-interface ProfileProps {}
-
-export const Profile: React.FC<ProfileProps> = ({}) => {
+export const Profile: React.FC = () => {
   const user = useAppSelector((state) => state.user);
   const wallet = useWallet();
   const [profile, setProfile] = useState({
@@ -28,7 +26,11 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
     count: user.friends.length,
     isFriend: false,
   });
-  const [toast, setToast] = useState({ visible: false, isSuccess: true, text: "" });
+  const [toast, setToast] = useState({
+    visible: false,
+    isSuccess: true,
+    text: "",
+  });
   const connection = useConnection();
   const { handle } = useParams();
   const navigate = useNavigate();
@@ -103,7 +105,7 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
   useEffect(() => {
     (async () => {
       await setInfo();
-    })()
+    })();
   }, [wallet.connected, handle, user.friends]);
 
   return (
@@ -124,7 +126,11 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
               </h2>
             </div>
 
-            <p className="mt-2 mb-8 text-gray-400">{profile.pk?.toString()}</p>
+            <p className="mt-2 mb-8 text-gray-400  mr-40">
+              {profile.pk?.toString().slice(0, 13) +
+                "..." +
+                profile.pk?.toString().slice(-13)}
+            </p>
             <div className="grid grid-cols-2 gap-5">
               {handle === user.username ? (
                 <Button
@@ -147,9 +153,17 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
                             wallet,
                             connection.connection
                           );
-                          setToast({ visible: true, isSuccess: true, text: "Friend successfully removed." });
+                          setToast({
+                            visible: true,
+                            isSuccess: true,
+                            text: "Friend successfully removed.",
+                          });
                         } catch {
-                          setToast({ visible: true, isSuccess: false, text: "Please try again." });
+                          setToast({
+                            visible: true,
+                            isSuccess: false,
+                            text: "Please try again.",
+                          });
                         }
                         await updateFriends();
                       }}
@@ -166,9 +180,17 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
                             wallet,
                             connection.connection
                           );
-                          setToast({ visible: true, isSuccess: true, text: "Friend successfully added." });
+                          setToast({
+                            visible: true,
+                            isSuccess: true,
+                            text: "Friend successfully added.",
+                          });
                         } catch {
-                          setToast({ visible: true, isSuccess: false, text: "Please try again." });
+                          setToast({
+                            visible: true,
+                            isSuccess: false,
+                            text: "Please try again.",
+                          });
                         }
                         await updateFriends();
                       }}
@@ -176,7 +198,7 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
                       Add Friend <UserAddIcon className="h-5 text-gray-200" />
                     </Button>
                   )}
-                  <Button color="primary" onClick={() => {}}>
+                  <Button color="primary" onClick={() => navigate('/payment', {state:{user: profile}})}>
                     Pay or Request
                   </Button>
                 </>
