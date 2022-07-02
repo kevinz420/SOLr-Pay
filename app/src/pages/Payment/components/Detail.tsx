@@ -1,39 +1,80 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "../../../components/Button";
 import ufo from "../../../assets/ufo.png";
-import getWallet from "../../../utils/get-wallet";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import getUser from "../../../utils/get-user";
 import { PublicKey } from "@solana/web3.js";
 import { ProfileType } from "../../../interfaces/types";
+import { Toast } from "../../../components/Toast";
+import pay from "../../../utils/pay";
 
 interface DetailProps {
-  user: {
-    username: string;
-    pfpURL: string;
-  };
+  user: ProfileType;
   setUser: React.Dispatch<React.SetStateAction<ProfileType>>;
 }
 
 export const Detail: React.FC<DetailProps> = (props) => {
   const [amount, setAmount] = useState("");
-  const [currency, setCurrency] = useState<"SOL" | "USD">("SOL");
-  const [validate, setValidate] = useState(false);
+  const [currency, setCurrency] = useState<"SOL" | "USD">("USD");
   const [address, setAddress] = useState("");
+  const [toast, setToast] = useState({
+    visible: false,
+    isSuccess: true,
+    text: "",
+  });
+  const note = useRef<HTMLTextAreaElement>(null);
 
   const wallet = useWallet();
   const connection = useConnection();
 
-  const handleSubmit = () => {
-    // if (image === "" || username.current!.value === "") {
-    //   setValidate(true);
-    //   return
-    // }
-    // create accounts
+  const convertPrice = async (amount: string) => {
+    if (currency === "USD") {
+      const response = await fetch(
+        "https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDC"
+      );
+      const data = await response.json();
+      return parseFloat(amount) / parseFloat(data.price)
+    }
+
+    return parseInt(amount)
+  };
+
+  const handleSubmit = async () => {
+    if (
+      amount === "" ||
+      props.user.username === "" ||
+      note.current!.value === ""
+    ) {
+      setToast({
+        visible: true,
+        isSuccess: false,
+        text: "Oops! A required field is missing.",
+      });
+      return;
+    }
+
+    try {
+      await pay(
+        await convertPrice(amount),
+        note.current!.value,
+        new PublicKey(address),
+        wallet,
+        connection.connection
+      );
+      setToast({ visible: true, isSuccess: true, text: "Payment successful." });
+    } catch {
+      setToast({
+        visible: true,
+        isSuccess: false,
+        text: "Payment failed. Please try again.",
+      });
+    }
   };
 
   useEffect(() => {
     (async () => {
+      if (props.user.username === "") return
+
       const data = await getUser(
         wallet,
         connection.connection,
@@ -80,11 +121,13 @@ export const Detail: React.FC<DetailProps> = (props) => {
           rows={3}
           className="block p-3 text-lg text-white bg-transparent rounded-lg outline-0 resize-none w-full text-center"
           placeholder="What's it for?"
+          ref={note}
         ></textarea>
       </div>
-      <Button color="secondary" className="w-3/5">
+      <Button color="secondary" className="w-3/5" onClick={handleSubmit}>
         Pay {(currency === "SOL" ? "◎" : "$") + amount}
       </Button>
+      <Toast toast={toast} setToast={setToast} />
     </div>
   );
 };

@@ -11,8 +11,6 @@ interface SearchProps {
 export const Search: React.FC<SearchProps> = (props) => {
   const [items, setItems] = useState([{ username: "", pfpURL: "" }]);
 
-  console.log(items);
-
   return (
     <div className="rounded-xl p-8 my-20 flex justify-start items-center bg-gray-800 w-4/12 h-fit flex-col">
       <div className="w-11/12 relative">
