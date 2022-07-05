@@ -17,7 +17,7 @@ pub fn pay(ctx: Context<Pay>, amount: u64, content: String) -> Result<()> {
         ]
     )?;
 
-    ctx.accounts.txn.initialize(ctx.accounts.to.key(), amount, content)?;
+    ctx.accounts.txn.initialize(ctx.accounts.from.key(), ctx.accounts.to.key(), amount, content)?;
     Ok(())
 }
 

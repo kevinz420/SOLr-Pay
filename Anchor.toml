@@ -2,10 +2,10 @@
 seeds = false
 
 [programs.localnet]
-solrpay = "5SChqz4YDGnrpto3jHTuzPYyvbcMcVwFDJ3EGzi3aX3L"
+solrpay = "GAVeDzE1MTuue5LByvn1na4DmbBe9KXrkJsnMmZkEHnH"
 
 [programs.devnet]
-solrpay = "5SChqz4YDGnrpto3jHTuzPYyvbcMcVwFDJ3EGzi3aX3L"
+solrpay = "GAVeDzE1MTuue5LByvn1na4DmbBe9KXrkJsnMmZkEHnH"
 
 [registry]
 url = "https://anchor.projectserum.com"
