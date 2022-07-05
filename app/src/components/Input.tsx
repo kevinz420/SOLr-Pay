@@ -30,7 +30,7 @@ export const Input: React.FC<InputProps> = (props) => {
         );
 
   const wallet = useWallet();
-  const connection = useConnection();
+  const { connection } = useConnection();
   let location = useLocation();
 
   // utility function to check if input is valid PK
@@ -49,7 +49,7 @@ export const Input: React.FC<InputProps> = (props) => {
     if (!wallet.connected) return;
 
     (async () => {
-      const users = await getUsers(wallet, connection.connection);
+      const users = await getUsers(wallet, connection);
       setItems(
         users.map((user) => {
           return {
@@ -77,17 +77,15 @@ export const Input: React.FC<InputProps> = (props) => {
     (async () => {
       const walletState = await getWallet(
         wallet,
-        connection.connection,
+        connection,
         new PublicKey(query)
       );
       setQuery(walletState.username as string);
     })();
   }, [query]);
 
-  // clears selected user on non-profile pages
+  // clears selected user after navigation
   useEffect(() => {
-    if (location.pathname.startsWith("/users")) return;
-
     setSelected({ username: "", pfpURL: "" });
   }, [location.pathname]);
 

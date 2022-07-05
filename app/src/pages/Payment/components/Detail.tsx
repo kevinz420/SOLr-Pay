@@ -25,7 +25,7 @@ export const Detail: React.FC<DetailProps> = (props) => {
   const note = useRef<HTMLTextAreaElement>(null);
 
   const wallet = useWallet();
-  const connection = useConnection();
+  const { connection } = useConnection();
 
   const convertPrice = async (amount: string) => {
     if (currency === "USD") {
@@ -33,10 +33,10 @@ export const Detail: React.FC<DetailProps> = (props) => {
         "https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDC"
       );
       const data = await response.json();
-      return parseFloat(amount) / parseFloat(data.price)
+      return parseFloat(amount) / parseFloat(data.price);
     }
 
-    return parseInt(amount)
+    return parseFloat(amount);
   };
 
   const handleSubmit = async () => {
@@ -59,7 +59,7 @@ export const Detail: React.FC<DetailProps> = (props) => {
         note.current!.value,
         new PublicKey(address),
         wallet,
-        connection.connection
+        connection
       );
       setToast({ visible: true, isSuccess: true, text: "Payment successful." });
     } catch {
@@ -73,13 +73,9 @@ export const Detail: React.FC<DetailProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      if (props.user.username === "") return
+      if (props.user.username === "") return;
 
-      const data = await getUser(
-        wallet,
-        connection.connection,
-        props.user.username
-      );
+      const data = await getUser(wallet, connection, props.user.username);
       setAddress((data.address as PublicKey).toString());
     })();
   }, [props.user.username]);

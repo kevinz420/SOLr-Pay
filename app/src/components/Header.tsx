@@ -26,33 +26,42 @@ export const Header: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const wallet = useWallet();
-  const connection = useConnection();
+  const { connection } = useConnection();
   const user = useAppSelector((state) => state.user);
 
   // logic for getting a users username and pfp URL
   const getUser = async () => {
-    if (!wallet.connected) return { username: "", pfpURL: "", friends: []};
+    if (!wallet.connected) return { username: "", pfpURL: "", friends: [] };
 
     try {
-      const walletState = await getWallet(wallet, connection.connection);
-      const friendState = await getFriends(wallet, connection.connection, walletState.friendCount as number, wallet.publicKey!);
-      const friends = (friendState.friends as Array<PublicKey>).map(f => f.toString())
-      const pfpURL = `https://ipfs.infura.io/ipfs/${(walletState.pfpCid as Uint8Array).toString()}`
-      
-      return { username: walletState.username as string, pfpURL, friends}
+      const walletState = await getWallet(wallet, connection);
+      const friendState = await getFriends(
+        wallet,
+        connection,
+        walletState.friendCount as number,
+        wallet.publicKey!
+      );
+      const friends = (friendState.friends as Array<PublicKey>).map((f) =>
+        f.toString()
+      );
+      const pfpURL = `https://ipfs.infura.io/ipfs/${(
+        walletState.pfpCid as Uint8Array
+      ).toString()}`;
+
+      return { username: walletState.username as string, pfpURL, friends };
     } catch {
       // if new user we set empty strings for username and pfp
-      navigate("/welcome")
-      return { username: "", pfpURL: "", friends: []};
+      navigate("/welcome");
+      return { username: "", pfpURL: "", friends: [] };
     }
   };
 
   // runs `getUser` on wallet change
   useEffect(() => {
     (async () => {
-      const data = await getUser(); 
+      const data = await getUser();
       dispatch(update(data));
-    })()
+    })();
   }, [wallet.connected]);
 
   return (
@@ -75,7 +84,11 @@ export const Header: React.FC = () => {
         </div>
 
         <form className="w-2/5">
-          <Input placeholder="Search for usernames, wallet addresses..." onSelect={(user) => navigate(`/users/${user.username}`)} isPayment={false}>
+          <Input
+            placeholder="Search for usernames, wallet addresses..."
+            onSelect={(user) => navigate(`/users/${user.username}`)}
+            isPayment={false}
+          >
             <svg
               className="w-5 h-5 text-gray-400 dark:text-gray-400"
               fill="none"

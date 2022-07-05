@@ -9,7 +9,7 @@ export const Payment: React.FC = () => {
     username: location.state ? (location.state as any).user.username : "",
     pfpURL: location.state ? (location.state as any).user.pfpURL : "",
   });
-  
+
   return (
     <div className="min-h-screen flex justify-center gap-5">
       <Search user={user} setUser={setUser} />

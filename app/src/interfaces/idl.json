@@ -250,6 +250,10 @@
         "kind": "struct",
         "fields": [
           {
+            "name": "payer",
+            "type": "publicKey"
+          },
+          {
             "name": "payee",
             "type": "publicKey"
           },
@@ -311,6 +315,6 @@
     }
   ],
   "metadata": {
-    "address": "5SChqz4YDGnrpto3jHTuzPYyvbcMcVwFDJ3EGzi3aX3L"
+    "address": "GAVeDzE1MTuue5LByvn1na4DmbBe9KXrkJsnMmZkEHnH"
   }
 }

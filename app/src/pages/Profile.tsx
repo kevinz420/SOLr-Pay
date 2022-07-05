@@ -4,7 +4,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "../components/Button";
 import { Toast } from "../components/Toast";
 import planet from "../assets/planet.png";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { UserAddIcon, UserRemoveIcon } from "@heroicons/react/solid";
 import getWallet from "../utils/get-wallet";
 import getUsername from "../utils/get-user";
@@ -13,6 +13,9 @@ import follow from "../utils/follow";
 import unfollow from "../utils/unfollow";
 import { update } from "../redux/features/user-slice";
 import getFriends from "../utils/get-friends";
+import getTxns from "../utils/get-txns";
+import { TxnType } from "../interfaces/types";
+import { Card } from "../components/Card";
 
 export const Profile: React.FC = () => {
   const user = useAppSelector((state) => state.user);
@@ -31,7 +34,8 @@ export const Profile: React.FC = () => {
     isSuccess: true,
     text: "",
   });
-  const connection = useConnection();
+  const [txns, setTxns] = useState<TxnType[]>([]);
+  const { connection } = useConnection();
   const { handle } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -46,22 +50,18 @@ export const Profile: React.FC = () => {
         pk: wallet.publicKey,
       });
       setFriendInfo({ count: user.friends.length, isFriend: false });
+      setTxns(await getTxns([wallet.publicKey!], wallet, connection));
       return;
     }
 
     try {
-      const nameState = await getUsername(
-        wallet,
-        connection.connection,
-        handle!
-      );
+      const nameState = await getUsername(wallet, connection, handle!);
       const pubkey = nameState.address as PublicKey;
 
-      const walletState = await getWallet(
-        wallet,
-        connection.connection,
-        pubkey
-      );
+      (async () => {
+        setTxns(await getTxns([pubkey], wallet, connection));
+      })();
+      const walletState = await getWallet(wallet, connection, pubkey);
       const count = walletState.friendCount as number;
       const pfpURL = `https://ipfs.infura.io/ipfs/${(
         walletState.pfpCid as Uint8Array
@@ -83,14 +83,10 @@ export const Profile: React.FC = () => {
 
   // calls follow ix and updates friends state
   const updateFriends = async () => {
-    const walletState = await getWallet(
-      wallet,
-      connection.connection,
-      wallet.publicKey!
-    );
+    const walletState = await getWallet(wallet, connection, wallet.publicKey!);
     const friendState = await getFriends(
       wallet,
-      connection.connection,
+      connection,
       walletState.friendCount as number,
       wallet.publicKey!
     );
@@ -109,8 +105,8 @@ export const Profile: React.FC = () => {
   }, [wallet.connected, handle, user.friends]);
 
   return (
-    <div className="min-h-screen">
-      <div className="rounded-xl p-8 py-16 my-20 flex justify-start items-center gap-5 bg-gray-800 w-3/4 mx-auto flex-col">
+    <div className="h-screen">
+      <div className="rounded-t-xl p-8 py-16 my-20 h-full flex justify-start items-center gap-5 bg-gray-800 w-3/4 mx-auto flex-col">
         <div className="flex gap-12 mb-14">
           <img
             src={profile.pfpURL}
@@ -148,11 +144,7 @@ export const Profile: React.FC = () => {
                       color="secondary"
                       onClick={async () => {
                         try {
-                          await unfollow(
-                            profile.pk!,
-                            wallet,
-                            connection.connection
-                          );
+                          await unfollow(profile.pk!, wallet, connection);
                           setToast({
                             visible: true,
                             isSuccess: true,
@@ -175,11 +167,7 @@ export const Profile: React.FC = () => {
                       color="secondary"
                       onClick={async () => {
                         try {
-                          await follow(
-                            profile.pk!,
-                            wallet,
-                            connection.connection
-                          );
+                          await follow(profile.pk!, wallet, connection);
                           setToast({
                             visible: true,
                             isSuccess: true,
@@ -198,7 +186,12 @@ export const Profile: React.FC = () => {
                       Add Friend <UserAddIcon className="h-5 text-gray-200" />
                     </Button>
                   )}
-                  <Button color="primary" onClick={() => navigate('/payment', {state:{user: profile}})}>
+                  <Button
+                    color="primary"
+                    onClick={() =>
+                      navigate("/payment", { state: { user: profile } })
+                    }
+                  >
                     Pay or Request
                   </Button>
                 </>
@@ -207,13 +200,83 @@ export const Profile: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-center gap-8 my-20">
-          <img src={planet} className="h-52" />
+        {txns.length > 0 ? (
+          <div className="w-full flex flex-col items-center gap-3">
+            {txns.map((txn) => (
+              <Card>
+                <div className="flex justify-between mt-4">
+                  <div className="flex items-center gap-5">
+                    <img
+                      src={
+                        txn.payer.username === "You"
+                          ? user.pfpURL
+                          : txn.payer.pfpURL
+                      }
+                      className="w-12 h-12 rounded-full mt-1"
+                    />
+                    <div>
+                      <div className="flex items-center gap-1.5 ">
+                        <h2 className="">
+                          <b
+                            onClick={() =>
+                              navigate(
+                                `/users/${
+                                  txn.payer.username === "You"
+                                    ? user.username
+                                    : txn.payer.username
+                                }`
+                              )
+                            }
+                            className="cursor-pointer"
+                          >
+                            {txn.payer.username.charAt(0).toUpperCase() +
+                              txn.payer.username.slice(1)}
+                          </b>{" "}
+                          paid{" "}
+                          <b
+                            onClick={() =>
+                              navigate(
+                                `/users/${
+                                  txn.payee.username === "You"
+                                    ? user.username
+                                    : txn.payee.username
+                                }`
+                              )
+                            }
+                            className="cursor-pointer"
+                          >
+                            {txn.payee.username.charAt(0).toUpperCase() +
+                              txn.payee.username.slice(1)}
+                          </b>
+                        </h2>
+                        <p className="text-sm text-gray-300">• {txn.time}</p>
+                      </div>
+                      <h1 className="text-lg">{txn.content}</h1>
+                    </div>
+                  </div>
 
-          <h1 className="text-2xl text-gray-400">
-            Looks like there are no signs of life detected 😔
-          </h1>
-        </div>
+                  <h1
+                    className={`font-bold ${
+                      txn.payer.username === "You"
+                        ? "text-red-500"
+                        : "text-green-500"
+                    }`}
+                  >
+                    {txn.amount.toFixed(2)} SOL
+                  </h1>
+                </div>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-8 my-20">
+            <img src={planet} className="h-52" />
+
+            <h1 className="text-2xl text-gray-400">
+              Looks like there are no signs of life detected 😔
+            </h1>
+          </div>
+        )}
       </div>
       <Toast toast={toast} setToast={setToast} />
     </div>

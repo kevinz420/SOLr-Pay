@@ -15,7 +15,7 @@ export default async function pay(
   const program = await getProgram(wallet, connection);
 
   const txn = anchor.web3.Keypair.generate();
-
+  
   await program.methods
     .pay(new anchor.BN(amount * anchor.web3.LAMPORTS_PER_SOL), content)
     .accounts({
