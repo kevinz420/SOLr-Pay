@@ -4,7 +4,7 @@ import { PublicKey } from "@solana/web3.js"
 export interface UserType {
     username : string,
     pfpURL : string
-    friends : Array<String>
+    friends : {pubkey: string, username: string, pfpURL: string}[]
 }
 
 // for react component usage

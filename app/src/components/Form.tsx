@@ -120,8 +120,17 @@ export const Form: React.FC<FormProps> = (props) => {
         walletState.friendCount as number,
         wallet.publicKey!
       );
-      const friends = (friendState.friends as Array<PublicKey>).map((f) =>
-        f.toString()
+      const friends = await Promise.all(
+        (friendState.friends as Array<PublicKey>).map(async (f) => {
+          const walletState = await getWallet(wallet, connection, f);
+          return {
+            pubkey: f.toString(),
+            username: walletState.username as string,
+            pfpURL: `https://ipfs.infura.io/ipfs/${(
+              walletState.pfpCid as Uint8Array
+            ).toString()}`,
+          };
+        })
       );
 
       setToast({

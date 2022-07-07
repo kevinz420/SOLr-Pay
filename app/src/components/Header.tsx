@@ -41,12 +41,21 @@ export const Header: React.FC = () => {
         walletState.friendCount as number,
         wallet.publicKey!
       );
-      const friends = (friendState.friends as Array<PublicKey>).map((f) =>
-        f.toString()
-      );
       const pfpURL = `https://ipfs.infura.io/ipfs/${(
         walletState.pfpCid as Uint8Array
       ).toString()}`;
+      const friends = await Promise.all(
+        (friendState.friends as Array<PublicKey>).map(async (f) => {
+          const walletState = await getWallet(wallet, connection, f);
+          return {
+            pubkey: f.toString(),
+            username: walletState.username as string,
+            pfpURL: `https://ipfs.infura.io/ipfs/${(
+              walletState.pfpCid as Uint8Array
+            ).toString()}`,
+          };
+        })
+      );
 
       return { username: walletState.username as string, pfpURL, friends };
     } catch {

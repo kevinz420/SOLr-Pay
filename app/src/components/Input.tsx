@@ -4,6 +4,7 @@ import { PublicKey } from "@solana/web3.js";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { ProfileType } from "../interfaces/types";
+import { useAppSelector } from "../redux/app/hooks";
 import getUsers from "../utils/get-users";
 import getWallet from "../utils/get-wallet";
 
@@ -19,9 +20,10 @@ export const Input: React.FC<InputProps> = (props) => {
   const [items, setItems] = useState([{ username: "", pfpURL: "" }]);
   const [selected, setSelected] = useState(items[0]);
   const [query, setQuery] = useState("");
+  const user = useAppSelector((state) => state.user);
   const filteredItems =
     query === ""
-      ? []
+      ? user.friends.map(f => { return {username: f.username, pfpURL: f.pfpURL}})
       : items.filter((item) =>
           item.username
             .toLowerCase()

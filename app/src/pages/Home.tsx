@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../redux/app/hooks";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import getTxns from "../utils/get-txns";
-import getAllTxns from "../utils/get-all-txns";
 import { PublicKey } from "@solana/web3.js";
 
 function classNames(...classes: string[]) {
@@ -24,7 +23,7 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      setTxns(await getAllTxns(wallet, connection));
+      setTxns(await getTxns(wallet, connection));
     })();
   }, [wallet.connected]);
 
@@ -38,12 +37,12 @@ export const Home: React.FC = () => {
             <Tab.Group
               onChange={async (index) => {
                 index === 0
-                  ? setTxns(await getAllTxns(wallet, connection))
+                  ? setTxns(await getTxns(wallet, connection))
                   : setTxns(
                       await getTxns(
-                        user.friends.map((f) => new PublicKey(f)),
                         wallet,
-                        connection
+                        connection,
+                        user.friends.map((f) => new PublicKey(f))
                       )
                     );
               }}
