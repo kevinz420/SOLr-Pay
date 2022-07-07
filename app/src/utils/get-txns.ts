@@ -12,48 +12,52 @@ const pubkeyToUser = async (
   wallet: WalletContextState,
   connection: Connection
 ) => {
-  if (pk.toString() === wallet.publicKey!.toString()) return {username: "You", pfpURL: ""};
+  if (pk.toString() === wallet.publicKey!.toString())
+    return { username: "You", pfpURL: "" };
 
   const user = await getWallet(wallet, connection, pk);
 
   return {
     username: user.username as string,
-    pfpURL: isPayer ? `https://ipfs.infura.io/ipfs/${(
-      user.pfpCid as Uint8Array
-    ).toString()}` : "",
+    pfpURL: isPayer
+      ? `https://ipfs.infura.io/ipfs/${(user.pfpCid as Uint8Array).toString()}`
+      : "",
   };
 };
 
 export default async function getTxns(
-  pks: PublicKey[],
   wallet: WalletContextState,
-  connection: Connection
+  connection: Connection,
+  pks?: PublicKey[]
 ) {
   const program = await getProgram(wallet, connection);
-  const res = [];
+  let res = [];
 
-  for (let pk of pks) {
-    const outgoing = await program.account.transaction.all([
-      {
-        memcmp: {
-          offset: 8, // Discriminator.
-          bytes: pk.toBase58(),
+  if (!pks) res = await program.account.transaction.all();
+  else {
+    for (let pk of pks) {
+      const outgoing = await program.account.transaction.all([
+        {
+          memcmp: {
+            offset: 8, // Discriminator.
+            bytes: pk.toBase58(),
+          },
         },
-      },
-    ]);
-    res.push(...outgoing);
+      ]);
+      res.push(...outgoing);
 
-    const incoming = await program.account.transaction.all([
-      {
-        memcmp: {
-          offset:
-            8 + // Discriminator.
-            32, // Payer public key.
-          bytes: pk.toBase58(),
+      const incoming = await program.account.transaction.all([
+        {
+          memcmp: {
+            offset:
+              8 + // Discriminator.
+              32, // Payer public key.
+            bytes: pk.toBase58(),
+          },
         },
-      },
-    ]);
-    res.push(...incoming);
+      ]);
+      res.push(...incoming);
+    }
   }
 
   const txnAccounts = res.sort(

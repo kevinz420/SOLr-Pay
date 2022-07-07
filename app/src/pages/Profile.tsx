@@ -5,7 +5,11 @@ import { Button } from "../components/Button";
 import { Toast } from "../components/Toast";
 import planet from "../assets/planet.png";
 import { useParams, useNavigate } from "react-router-dom";
-import { UserAddIcon, UserRemoveIcon } from "@heroicons/react/solid";
+import {
+  UserAddIcon,
+  UserRemoveIcon,
+  DuplicateIcon,
+} from "@heroicons/react/solid";
 import getWallet from "../utils/get-wallet";
 import getUsername from "../utils/get-user";
 import { PublicKey } from "@solana/web3.js";
@@ -50,7 +54,7 @@ export const Profile: React.FC = () => {
         pk: wallet.publicKey,
       });
       setFriendInfo({ count: user.friends.length, isFriend: false });
-      setTxns(await getTxns([wallet.publicKey!], wallet, connection));
+      setTxns(await getTxns(wallet, connection, [wallet.publicKey!]));
       return;
     }
 
@@ -59,7 +63,7 @@ export const Profile: React.FC = () => {
       const pubkey = nameState.address as PublicKey;
 
       (async () => {
-        setTxns(await getTxns([pubkey], wallet, connection));
+        setTxns(await getTxns(wallet, connection, [pubkey]));
       })();
       const walletState = await getWallet(wallet, connection, pubkey);
       const count = walletState.friendCount as number;
@@ -73,7 +77,7 @@ export const Profile: React.FC = () => {
       });
       setFriendInfo({
         count,
-        isFriend: user.friends.includes(pubkey.toString()),
+        isFriend: user.friends.some((f) => f.pubkey === pubkey.toString()),
       });
     } catch {
       // if username does not exist
@@ -90,8 +94,17 @@ export const Profile: React.FC = () => {
       walletState.friendCount as number,
       wallet.publicKey!
     );
-    const friends = (friendState.friends as Array<PublicKey>).map((f) =>
-      f.toString()
+    const friends = await Promise.all(
+      (friendState.friends as Array<PublicKey>).map(async (f) => {
+        const walletState = await getWallet(wallet, connection, f);
+        return {
+          pubkey: f.toString(),
+          username: walletState.username as string,
+          pfpURL: `https://ipfs.infura.io/ipfs/${(
+            walletState.pfpCid as Uint8Array
+          ).toString()}`,
+        };
+      })
     );
 
     dispatch(update({ username: user.username, pfpURL: user.pfpURL, friends }));
@@ -122,10 +135,21 @@ export const Profile: React.FC = () => {
               </h2>
             </div>
 
-            <p className="mt-2 mb-8 text-gray-400  mr-40">
+            <p className="mt-2 mb-8 text-gray-400  mr-36 flex gap-3">
               {profile.pk?.toString().slice(0, 13) +
                 "..." +
                 profile.pk?.toString().slice(-13)}
+              <DuplicateIcon
+                className="w-5 cursor-pointer"
+                onClick={() => {
+                  navigator.clipboard.writeText(profile.pk!.toString());
+                  setToast({
+                    visible: true,
+                    isSuccess: true,
+                    text: "Copied to clipboard.",
+                  });
+                }}
+              />
             </p>
             <div className="grid grid-cols-2 gap-5">
               {handle === user.username ? (
