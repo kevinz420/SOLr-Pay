@@ -6,6 +6,10 @@ pub enum InputError {
     AccountDuplicate,
     #[msg("Username too long.")]
     LongNickname,
-    #[msg("Profile Pic has oversized byte array")]
-    LongPfp
+    #[msg("Please use a valid profile picture.")]
+    InvalidPfp,
+    #[msg("You are already friends with this user.")]
+    DuplicateFriend,
+    #[msg("You are not currently friends with this user.")]
+    FriendNotFound,
 }

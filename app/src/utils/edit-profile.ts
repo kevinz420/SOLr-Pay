@@ -3,7 +3,7 @@ import getProgram from "./get-program";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 import * as anchor from "@project-serum/anchor";
 import { WalletContextState } from "@solana/wallet-adapter-react";
-const sendAndConfirmTransaction = require("solana/web3.js");
+const sendAndConfirmTransaction = require("@solana/web3.js");
 
 export default async function editProfile(
   wallet: WalletContextState,

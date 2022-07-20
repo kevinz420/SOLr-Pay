@@ -5,7 +5,7 @@ pub mod error;
 pub mod instructions;
 pub mod state;
 
-declare_id!("GAVeDzE1MTuue5LByvn1na4DmbBe9KXrkJsnMmZkEHnH");
+declare_id!("82J5TwU2dWn8m9W9hvJ4mePChgPMqf2bisk19nS89Frx");
 
 #[program]
 pub mod solrpay {
@@ -23,12 +23,8 @@ pub mod solrpay {
         instructions::changepfp::change_pfp(ctx, _pfp)
     }
 
-    pub fn follow(ctx: Context<Follow>, _friend: Pubkey) -> Result<()> {
-        instructions::follow::follow(ctx, _friend)
-    }
-
-    pub fn unfollow(ctx: Context<Unfollow>, _friend: Pubkey) -> Result<()> {
-        instructions::unfollow::unfollow(ctx, _friend)
+    pub fn follow(ctx: Context<Follow>, _friend: Pubkey, _add: bool) -> Result<()> {
+        instructions::follow::follow(ctx, _friend, _add)
     }
 
     pub fn pay(ctx: Context<Pay>, _amount: u64, _content: String) -> Result<()> {

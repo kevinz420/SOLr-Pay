@@ -3,14 +3,17 @@ use crate::state::friend::*;
 
 use anchor_lang::prelude::*;
 
-pub fn follow(ctx: Context<Follow>, friend: Pubkey) -> Result<()> {
-    let mut vec = ctx.accounts.old_pda.get_vec()?;
-    ctx.accounts.friend_pda.add_friend(&mut vec, friend)?;
-    ctx.accounts.profile.incr_friends()?;
+pub fn follow(ctx: Context<Follow>, friend: Pubkey, add: bool) -> Result<()> {
+    if add {
+        ctx.accounts.friend_pda.add_friend(friend)?;
+    } else {
+        ctx.accounts.friend_pda.remove_friend(&friend)?;
+    }
     Ok(())
 }
 
 #[derive(Accounts)]
+#[instruction(friend: Pubkey, add: bool)]
 pub struct Follow<'info> {
     #[account(
         mut,
@@ -20,16 +23,10 @@ pub struct Follow<'info> {
     pub profile: Account<'info, Wallet>,
     #[account(
         mut,
-        close = user,
-        seeds = ["friend".as_bytes(), profile.key().as_ref(), &[profile.get_fcount() as u8]],
-        bump
-    )]
-    pub old_pda: Account<'info, Friend>,
-    #[account(
-        init,
-        payer = user,
-        space = Friend::STATIC_SIZE  + (32*(profile.get_fcount() + 1) as usize),
-        seeds = ["friend".as_bytes(), profile.key().as_ref(), &[(profile.get_fcount() + 1) as u8]],
+        realloc = Friend::STATIC_SIZE + (32*(friend_pda.update_fcount(add))),
+        realloc::payer = user,
+        realloc::zero = false,
+        seeds = ["friend".as_bytes(), profile.key().as_ref()],
         bump
     )]
     pub friend_pda: Account<'info, Friend>,

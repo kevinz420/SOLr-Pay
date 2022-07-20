@@ -19,11 +19,14 @@ pub struct ChangeUsername<'info> {
     #[account(
         mut,
         close = user,
-        seeds = ["username".as_bytes(), profile.current_name().as_bytes()], bump  //idk if this works
+        seeds = ["username".as_bytes(), profile.current_name().as_bytes()], bump
     )]
     pub nickname: Account<'info, NameKey>,
     #[account(
         mut,
+        realloc = Wallet::STATIC_SIZE + profile.pfp_len() + _uname.len(),
+        realloc::payer = user,
+        realloc::zero = false,
         seeds = ["wallet".as_bytes(), user.key().as_ref()], bump
     )]
     pub profile: Account<'info, Wallet>,
