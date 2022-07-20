@@ -1,11 +1,12 @@
 import { Combobox, Transition } from "@headlessui/react";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { PublicKey } from "@solana/web3.js";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { ProfileType } from "../interfaces/types";
 import { useAppSelector } from "../redux/app/hooks";
-import getUsers from "../utils/get-users";
+
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { PublicKey } from "@solana/web3.js";
+import { ProfileType } from "../interfaces/types";
+import getWallets from "../utils/get-wallets";
 import getWallet from "../utils/get-wallet";
 
 interface InputProps {
@@ -13,7 +14,6 @@ interface InputProps {
   onSelect: (user: ProfileType) => void;
   isPayment: boolean;
   children?: React.ReactNode;
-  setItems?: React.Dispatch<React.SetStateAction<ProfileType[]>>;
 }
 
 export const Input: React.FC<InputProps> = (props) => {
@@ -51,13 +51,13 @@ export const Input: React.FC<InputProps> = (props) => {
     if (!wallet.connected) return;
 
     (async () => {
-      const users = await getUsers(wallet, connection);
+      const users = await getWallets(wallet, connection);
       setItems(
         users.map((user) => {
           return {
-            username: user.account.username as string,
+            username: user.account.username,
             pfpURL: `https://ipfs.infura.io/ipfs/${(
-              user.account.pfpCid as Uint8Array
+              user.account.pfpCid
             ).toString()}`,
           };
         })
@@ -69,7 +69,6 @@ export const Input: React.FC<InputProps> = (props) => {
     if (selected.username === "") return;
 
     props.onSelect(selected);
-    if (props.setItems) props.setItems(filteredItems);
   }, [selected.username]);
 
   // converts query by pubkey into query by username
@@ -82,7 +81,7 @@ export const Input: React.FC<InputProps> = (props) => {
         connection,
         new PublicKey(query)
       );
-      setQuery(walletState.username as string);
+      setQuery(walletState.username);
     })();
   }, [query]);
 

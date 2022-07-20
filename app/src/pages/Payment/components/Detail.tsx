@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "../../../components/Button";
 import ufo from "../../../assets/ufo.png";
+import { Toast } from "../../../components/Toast";
+
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import getUser from "../../../utils/get-user";
 import { PublicKey } from "@solana/web3.js";
 import { ProfileType } from "../../../interfaces/types";
-import { Toast } from "../../../components/Toast";
+import getUser from "../../../utils/get-user";
 import pay from "../../../utils/pay";
 
 interface DetailProps {
@@ -76,7 +77,7 @@ export const Detail: React.FC<DetailProps> = (props) => {
       if (props.user.username === "") return;
 
       const data = await getUser(wallet, connection, props.user.username);
-      setAddress((data.address as PublicKey).toString());
+      setAddress((data.address).toString());
     })();
   }, [props.user.username]);
 

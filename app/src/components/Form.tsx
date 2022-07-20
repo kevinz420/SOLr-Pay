@@ -8,12 +8,11 @@ import { Toast } from "../components/Toast";
 
 import initialize from "../utils/initialize";
 import getWallet from "../utils/get-wallet";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { create } from "ipfs-http-client";
 import getFriends from "../utils/get-friends";
-import { PublicKey } from "@solana/web3.js";
 import getUser from "../utils/get-user";
 import editProfile from "../utils/edit-profile";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { create } from "ipfs-http-client";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -102,7 +101,6 @@ export const Form: React.FC<FormProps> = (props) => {
           username.current!.value === user.username
             ? undefined
             : username.current!.value;
-
         await editProfile(
           wallet,
           connection,
@@ -117,17 +115,17 @@ export const Form: React.FC<FormProps> = (props) => {
       const friendState = await getFriends(
         wallet,
         connection,
-        walletState.friendCount as number,
+        walletState.friendCount ,
         wallet.publicKey!
       );
       const friends = await Promise.all(
-        (friendState.friends as Array<PublicKey>).map(async (f) => {
+        friendState.friends.map(async (f) => {
           const walletState = await getWallet(wallet, connection, f);
           return {
             pubkey: f.toString(),
-            username: walletState.username as string,
+            username: walletState.username ,
             pfpURL: `https://ipfs.infura.io/ipfs/${(
-              walletState.pfpCid as Uint8Array
+              walletState.pfpCid 
             ).toString()}`,
           };
         })
@@ -139,7 +137,7 @@ export const Form: React.FC<FormProps> = (props) => {
         text: "Profile successfully updated.",
       });
       dispatch(
-        update({ username: walletState.username as string, pfpURL, friends })
+        update({ username: walletState.username , pfpURL, friends })
       );
     } catch {
       setToast({ visible: true, isSuccess: false, text: "Please try again." });
