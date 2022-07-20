@@ -28,7 +28,7 @@ pub struct Initialize<'info> {
     #[account(
         init,
         payer = user,
-        space = Wallet::STATIC_SIZE +_pfp.len(),
+        space = Wallet::STATIC_SIZE + _pfp.len() + _uname.len(),
         seeds = ["wallet".as_bytes(), user.key().as_ref()], bump
     )]
     pub profile: Account<'info, Wallet>,
@@ -36,7 +36,7 @@ pub struct Initialize<'info> {
         init,
         payer = user,
         space = Friend::STATIC_SIZE,
-        seeds = ["friend".as_bytes(), profile.key().as_ref(), &[0]], bump
+        seeds = ["friend".as_bytes(), profile.key().as_ref()], bump
     )]
     pub friend: Account<'info, Friend>,
     #[account(mut)]
