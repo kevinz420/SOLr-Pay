@@ -76,8 +76,4 @@ export default async function editProfile(
     lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
     signature: signature,
   });
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 305c6c1fadf7721de67ae592c942f5357c58d2b4
