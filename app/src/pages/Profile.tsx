@@ -12,7 +12,6 @@ import {
 } from "@heroicons/react/solid";
 import getWallet from "../utils/get-wallet";
 import getUsername from "../utils/get-user";
-import { PublicKey } from "@solana/web3.js";
 import follow from "../utils/follow";
 import unfollow from "../utils/unfollow";
 import { update } from "../redux/features/user-slice";
@@ -60,18 +59,18 @@ export const Profile: React.FC = () => {
 
     try {
       const nameState = await getUsername(wallet, connection, handle!);
-      const pubkey = nameState.address as PublicKey;
+      const pubkey = nameState.address;
 
       (async () => {
         setTxns(await getTxns(wallet, connection, [pubkey]));
       })();
       const walletState = await getWallet(wallet, connection, pubkey);
-      const count = walletState.friendCount as number;
+      const count = walletState.friendCount ;
       const pfpURL = `https://ipfs.infura.io/ipfs/${(
-        walletState.pfpCid as Uint8Array
+        walletState.pfpCid 
       ).toString()}`;
       setProfile({
-        username: walletState.username as string,
+        username: walletState.username,
         pfpURL,
         pk: pubkey,
       });
@@ -94,13 +93,13 @@ export const Profile: React.FC = () => {
       wallet.publicKey!
     );
     const friends = await Promise.all(
-      (friendState.friends as Array<PublicKey>).map(async (f) => {
+      friendState.friends.map(async (f) => {
         const walletState = await getWallet(wallet, connection, f);
         return {
           pubkey: f.toString(),
-          username: walletState.username as string,
+          username: walletState.username ,
           pfpURL: `https://ipfs.infura.io/ipfs/${(
-            walletState.pfpCid as Uint8Array
+            walletState.pfpCid 
           ).toString()}`,
         };
       })

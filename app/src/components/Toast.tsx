@@ -1,9 +1,10 @@
 import { Transition } from "@headlessui/react";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
+import { ToastType } from "../interfaces/types";
 
 interface ToastProps {
-  toast: { visible: boolean; isSuccess: boolean, text: string};
-  setToast: Dispatch<SetStateAction<{ visible: boolean; isSuccess: boolean, text: string }>>;
+  toast: ToastType;
+  setToast: Dispatch<SetStateAction<ToastType>>;
 }
 
 export const Toast: React.FC<ToastProps> = (props) => {

@@ -2,6 +2,7 @@ import getProgram from "./get-program";
 import { Connection, PublicKey } from "@solana/web3.js";
 import * as anchor from "@project-serum/anchor";
 import { WalletContextState } from "@solana/wallet-adapter-react";
+import { NickType } from "../interfaces/types";
 
 export default async function getUsername(
   wallet: WalletContextState,
@@ -18,5 +19,5 @@ export default async function getUsername(
     program.programId
   );
 
-  return await program.account.nameKey.fetch(nickPDA);
+  return await program.account.nameKey.fetch(nickPDA) as unknown as NickType;
 }

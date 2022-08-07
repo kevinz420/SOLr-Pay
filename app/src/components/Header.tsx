@@ -15,7 +15,6 @@ import {
   WalletDisconnectButton,
 } from "@solana/wallet-adapter-react-ui";
 import getWallet from "../utils/get-wallet";
-import { PublicKey } from "@solana/web3.js";
 import getFriends from "../utils/get-friends";
 
 function classNames(...classes: string[]) {
@@ -41,22 +40,22 @@ export const Header: React.FC = () => {
         wallet.publicKey!
       );
       const pfpURL = `https://ipfs.infura.io/ipfs/${(
-        walletState.pfpCid as Uint8Array
+        walletState.pfpCid
       ).toString()}`;
       const friends = await Promise.all(
-        (friendState.friends as Array<PublicKey>).map(async (f) => {
+        (friendState.friends).map(async (f) => {
           const walletState = await getWallet(wallet, connection, f);
           return {
             pubkey: f.toString(),
-            username: walletState.username as string,
+            username: walletState.username,
             pfpURL: `https://ipfs.infura.io/ipfs/${(
-              walletState.pfpCid as Uint8Array
+              walletState.pfpCid
             ).toString()}`,
           };
         })
       );
 
-      return { username: walletState.username as string, pfpURL, friends };
+      return { username: walletState.username, pfpURL, friends };
     } catch {
       // if new user we set empty strings for username and pfp
       navigate("/welcome");

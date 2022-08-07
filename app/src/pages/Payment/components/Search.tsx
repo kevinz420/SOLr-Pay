@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Input } from "../../../components/Input";
 import { SparklesIcon } from "@heroicons/react/outline";
 import { ProfileType } from "../../../interfaces/types";
@@ -9,15 +9,12 @@ interface SearchProps {
 }
 
 export const Search: React.FC<SearchProps> = (props) => {
-  const [items, setItems] = useState([{ username: "", pfpURL: "" }]);
-
   return (
     <div className="rounded-xl p-8 my-20 flex justify-start items-center bg-gray-800 w-4/12 h-fit flex-col">
       <div className="w-11/12 relative">
         <Input
           placeholder="Find a friend to pay..."
           onSelect={(user) => props.setUser(user)}
-          setItems={setItems}
           isPayment={true}
         >
           <SparklesIcon className="h-6 w-6 text-gray-400" />

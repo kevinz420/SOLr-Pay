@@ -2,6 +2,7 @@ import getProgram from "./get-program";
 import { Connection, PublicKey } from "@solana/web3.js";
 import * as anchor from "@project-serum/anchor";
 import { WalletContextState } from "@solana/wallet-adapter-react";
+import { FriendType } from "../interfaces/types";
 
 export default async function getFriends(
   wallet: WalletContextState,
@@ -28,5 +29,5 @@ export default async function getFriends(
         program.programId
     );
 
-  return await program.account.friend.fetch(friendPDA);
+  return await program.account.friend.fetch(friendPDA) as unknown as FriendType;
 }

@@ -4,6 +4,7 @@ import { WalletContextState } from "@solana/wallet-adapter-react";
 import getWallet from "./get-wallet";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { TxnType } from "../interfaces/types";
 dayjs.extend(relativeTime);
 
 const pubkeyToUser = async (
@@ -29,7 +30,7 @@ export default async function getTxns(
   wallet: WalletContextState,
   connection: Connection,
   pks?: PublicKey[]
-) {
+): Promise<TxnType[]> {
   const program = await getProgram(wallet, connection);
   let res = [];
 
