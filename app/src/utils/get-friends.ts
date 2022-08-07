@@ -6,7 +6,6 @@ import { WalletContextState } from "@solana/wallet-adapter-react";
 export default async function getFriends(
   wallet: WalletContextState,
   connection: Connection,
-  counter: number,
   pk: PublicKey,
 ) {
   const program = await getProgram(wallet, connection);
@@ -25,7 +24,6 @@ export default async function getFriends(
         [
             anchor.utils.bytes.utf8.encode("friend"),
             profilePDA.toBuffer(),
-            new anchor.BN(counter).toArrayLike(Buffer, 'le')
         ],
         program.programId
     );

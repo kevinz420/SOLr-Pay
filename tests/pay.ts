@@ -14,7 +14,7 @@ describe('solrpay', () => {
     const connection = new Connection("https://api.devnet.solana.com"); //change to mainnet for mainnet
   
     const amount = anchor.web3.LAMPORTS_PER_SOL / 3;  // lamports
-    const content: string = "w";
+    const content: string = "i am literally the coolest";
 
     const txn = anchor.web3.Keypair.generate();
     const to = anchor.web3.Keypair.generate();

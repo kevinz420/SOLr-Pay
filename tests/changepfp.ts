@@ -11,7 +11,7 @@ describe('solrpay', () => {
     const solrProgram = anchor.workspace.Solrpay as Program<Solrpay>;
     const solrProvider = solrProgram.provider as anchor.AnchorProvider;
   
-    const newpfp = Buffer.from([2, 4, 5]);  //user input
+    const newpfp = Buffer.from([2, 4,]);  //user input
 
     it('changepfp!', async() => {
         const signer = solrProvider.wallet;
@@ -25,8 +25,8 @@ describe('solrpay', () => {
                 solrProgram.programId
             );
 
-        let oldWalletState = await solrProgram.account.wallet.fetch(profilePDA);
-        console.log("old_pfp:", oldWalletState.pfpCid);
+        let walletState = await solrProgram.account.wallet.fetch(profilePDA);
+        console.log("old_pfp:", walletState.pfpCid);
 
         await solrProgram.methods
                 .changePfp(
@@ -38,7 +38,7 @@ describe('solrpay', () => {
                 })
                 .rpc();
 
-        let walletState = await solrProgram.account.wallet.fetch(profilePDA);
+        walletState = await solrProgram.account.wallet.fetch(profilePDA);
         
         console.log("new_pfp:", walletState.pfpCid)
         console.log("input_pfp:", newpfp)

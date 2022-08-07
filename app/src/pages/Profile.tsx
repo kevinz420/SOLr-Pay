@@ -91,7 +91,6 @@ export const Profile: React.FC = () => {
     const friendState = await getFriends(
       wallet,
       connection,
-      walletState.friendCount as number,
       wallet.publicKey!
     );
     const friends = await Promise.all(
@@ -119,15 +118,18 @@ export const Profile: React.FC = () => {
 
   return (
     <div className="h-screen">
-      <div className="rounded-t-xl p-8 py-16 my-20 h-full flex justify-start items-center gap-5 bg-gray-800 w-3/4 mx-auto flex-col">
-        <div className="flex gap-12 mb-14">
+      <div className="rounded-none p-0 py-10 my-0 h-full flex justify-start items-center gap-5 bg-gray-800 w-screen mx-auto flex-col md:w-3/4 md:rounded-t-xl md:my-20 md:p-8 md:py-14">
+        <div className="flex flex-row pl-4 md:gap-12 mb-14 md:pl-0">
+          <div className="flex flex-col">
+
+          </div>
           <img
             src={profile.pfpURL}
-            className="rounded-full w-36 h-36 outline outline-white"
+            className="rounded-full w-20 h-20 outline outline-white md:w-36 md:h-36"
           />
           <div className="flex flex-col">
-            <div className="flex justify-between items-center">
-              <h1 className="font-bold text-4xl text-white">
+            <div className="flex justify-between items-center px-4">
+              <h1 className="font-bold text-xl text-white md:text-4xl">
                 {profile.username}
               </h1>
               <h2 className="text-white font-semibold bg-slate-700 p-1 rounded-xl w-28 h-8 text-center">
@@ -135,7 +137,7 @@ export const Profile: React.FC = () => {
               </h2>
             </div>
 
-            <p className="mt-2 mb-8 text-gray-400  mr-36 flex gap-3">
+            <p className="hidden mt-2 mb-8 text-gray-400 flex gap-3 md:mr-36 md:block">
               {profile.pk?.toString().slice(0, 13) +
                 "..." +
                 profile.pk?.toString().slice(-13)}
@@ -151,6 +153,23 @@ export const Profile: React.FC = () => {
                 }}
               />
             </p>
+            
+            <p className="block mt-2 mb-8 text-gray-400 flex gap-3 px-4 md:hidden">
+              {profile.pk?.toString().slice(0, 13) +
+                "..."}
+              <DuplicateIcon
+                className="w-5 cursor-pointer"
+                onClick={() => {
+                  navigator.clipboard.writeText(profile.pk!.toString());
+                  setToast({
+                    visible: true,
+                    isSuccess: true,
+                    text: "Copied to clipboard.",
+                  });
+                }}
+              />
+            </p>
+
             <div className="grid grid-cols-2 gap-5">
               {handle === user.username ? (
                 <Button
@@ -293,7 +312,7 @@ export const Profile: React.FC = () => {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-8 my-20">
+          <div className="flex flex-col items-center gap-8 md:my-20">
             <img src={planet} className="h-52" />
 
             <h1 className="text-2xl text-gray-400">

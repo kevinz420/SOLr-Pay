@@ -14,7 +14,7 @@ describe('solrpay', () => {
   const solrProgram = anchor.workspace.Solrpay as Program<Solrpay>;
   const solrProvider = solrProgram.provider as anchor.AnchorProvider;
 
-  const nick: string = "varun>kevin";     //user input
+  const nick: string = "ihate-every";     //user input
 
   it('change_username!', async() => {
     const signer = solrProvider.wallet;

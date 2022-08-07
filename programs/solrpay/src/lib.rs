@@ -5,7 +5,7 @@ pub mod error;
 pub mod instructions;
 pub mod state;
 
-declare_id!("82J5TwU2dWn8m9W9hvJ4mePChgPMqf2bisk19nS89Frx");
+declare_id!("4ZVtYu1Zanzb1Dbyi99wm15FF83obUieXn7ZrFeCMNKx");
 
 #[program]
 pub mod solrpay {
@@ -29,5 +29,9 @@ pub mod solrpay {
 
     pub fn pay(ctx: Context<Pay>, _amount: u64, _content: String) -> Result<()> {
         instructions::pay::pay(ctx, _amount, _content)
+    }
+
+    pub fn pay_token(ctx: Context<PayToken>, _amount: u64, _content: String) -> Result<()> {
+        instructions::paytoken::pay_token(ctx, _amount, _content)
     }
 }

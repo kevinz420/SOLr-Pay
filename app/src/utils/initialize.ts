@@ -28,7 +28,6 @@ export default async function initialize(username: string, pfp: Buffer, wallet: 
     [
       anchor.utils.bytes.utf8.encode("friend"),
       profilePDA.toBuffer(),
-      new anchor.BN(0).toArrayLike(Buffer, "le"),
     ],
     program.programId
   );
@@ -38,8 +37,8 @@ export default async function initialize(username: string, pfp: Buffer, wallet: 
     .accounts({
       nickname: nickPDA,
       profile: profilePDA,
-      user: provider.wallet.publicKey,
       friend: friendPDA,
+      user: provider.wallet.publicKey,
     })
     .rpc();
 }

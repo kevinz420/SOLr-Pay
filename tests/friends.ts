@@ -25,49 +25,32 @@ describe('solrpay', () => {
             solrProgram.programId
         );
 
-    let walletState = await solrProgram.account.wallet.fetch(profilePDA);
-    const prev = walletState.friendCount
-
-    const [oldPDA, ] = await PublicKey
-    .findProgramAddress(
-        [
-            anchor.utils.bytes.utf8.encode("friend"),
-            profilePDA.toBuffer(),
-            new anchor.BN(prev).toArrayLike(Buffer, 'le')
-        ],
-        solrProgram.programId
-    );
-    
-    let oldState = await solrProgram.account.friend.fetch(oldPDA);
-    console.log('ORIGINAL ARRAY: ' + oldState.friends)
-
     const [friendPDA, ] = await PublicKey
     .findProgramAddress(
         [
             anchor.utils.bytes.utf8.encode("friend"),
             profilePDA.toBuffer(),
-            new anchor.BN(prev + 1).toArrayLike(Buffer, 'le')
         ],
         solrProgram.programId
     );
+    
+    let friendState = await solrProgram.account.friend.fetch(friendPDA);
+    console.log('ORIGINAL ARRAY: ' + friendState.friends);
 
     await solrProgram.methods
-        .follow(friend.publicKey)
+        .follow(friend.publicKey, true)
         .accounts({
             profile: profilePDA,
-            oldPda: oldPDA,
             friendPda: friendPDA,
             user: signer.publicKey,
         })
         .rpc();
     
-    walletState = await solrProgram.account.wallet.fetch(profilePDA);
-    expect(walletState.friendCount).to.equal(prev + 1);
-    
-    let friendState = await solrProgram.account.friend.fetch(friendPDA);
-    console.log('\nNEW ARRAY: ' + friendState.friends)
+    friendState = await solrProgram.account.friend.fetch(friendPDA);
+    console.log('\nNEW ARRAY: ' + friendState.friends);
 
-    expect(friendState.friends[0].toString()).to.equal(friend.publicKey.toString());
+    let length = friendState.friends.length;
+    expect(friendState.friends[length - 1].toString()).to.equal(friend.publicKey.toString());
   });
 
   it('unfollow!', async () => {
@@ -82,47 +65,29 @@ describe('solrpay', () => {
             solrProgram.programId
         );
 
-    let walletState = await solrProgram.account.wallet.fetch(profilePDA);
-    const prev = walletState.friendCount
-
-    const [oldPDA, ] = await PublicKey
-    .findProgramAddress(
-        [
-            anchor.utils.bytes.utf8.encode("friend"),
-            profilePDA.toBuffer(),
-            new anchor.BN(prev).toArrayLike(Buffer, 'le')
-        ],
-        solrProgram.programId
-    );
-    
-    let oldState = await solrProgram.account.friend.fetch(oldPDA);
-    console.log('ORIGINAL ARRAY: ' + oldState.friends)
-
     const [friendPDA, ] = await PublicKey
     .findProgramAddress(
         [
             anchor.utils.bytes.utf8.encode("friend"),
             profilePDA.toBuffer(),
-            new anchor.BN(prev - 1).toArrayLike(Buffer, 'le')
         ],
         solrProgram.programId
     );
+    
+    let friendState = await solrProgram.account.friend.fetch(friendPDA);
+    console.log('ORIGINAL ARRAY: ' + friendState.friends);
 
     await solrProgram.methods
-        .unfollow(friend.publicKey)
+        .follow(friend.publicKey, false)
         .accounts({
             profile: profilePDA,
-            oldPda: oldPDA,
             friendPda: friendPDA,
             user: signer.publicKey,
         })
         .rpc();
     
-    walletState = await solrProgram.account.wallet.fetch(profilePDA);
-    expect(walletState.friendCount).to.equal(prev - 1);
-    
-    let friendState = await solrProgram.account.friend.fetch(friendPDA);
-    console.log('\nNEW ARRAY: ' + friendState.friends)
+    friendState = await solrProgram.account.friend.fetch(friendPDA);
+    console.log('\nNEW ARRAY: ' + friendState.friends);
 
     expect(friendState.friends.toString()).to.not.contain(friend.publicKey.toString());
   })

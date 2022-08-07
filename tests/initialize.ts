@@ -11,7 +11,7 @@ describe('solrpay', () => {
   const solrProgram = anchor.workspace.Solrpay as Program<Solrpay>;
   const solrProvider = solrProgram.provider as anchor.AnchorProvider;
 
-  const nick: string = "varun";   //user inputs for testing
+  const nick: string = "kev";   //user inputs for testing
   const pfp = Buffer.from([1, 2, 3]);
 
   it('initialize!', async () => {
@@ -21,7 +21,7 @@ describe('solrpay', () => {
         .findProgramAddress(
             [
                 anchor.utils.bytes.utf8.encode("username"),
-                anchor.utils.bytes.utf8.encode("varun"),
+                anchor.utils.bytes.utf8.encode(nick),
             ],
             solrProgram.programId
         );
@@ -40,14 +40,13 @@ describe('solrpay', () => {
             [
                 anchor.utils.bytes.utf8.encode("friend"),
                 profilePDA.toBuffer(),
-                new anchor.BN(0).toArrayLike(Buffer, 'le')
             ],
             solrProgram.programId
         );
     
     await solrProgram.methods
         .initialize(
-            "varun", 
+            "kev", 
             pfp,
         )
         .accounts({
@@ -66,8 +65,6 @@ describe('solrpay', () => {
 
 
     let walletState = await solrProgram.account.wallet.fetch(profilePDA);
-    expect(walletState.transactionCount).to.equal(0);
-    expect(walletState.friendCount).to.equal(0);
     //expect(walletState.pfpCid).to.equal(pfp);
 
     console.log("pfp_cid:", walletState.pfpCid);

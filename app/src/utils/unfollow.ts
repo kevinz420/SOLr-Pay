@@ -17,34 +17,19 @@ export default async function unfollow(friend: PublicKey, wallet: WalletContextS
             program.programId
         );
 
-    let walletState = await program.account.wallet.fetch(profilePDA);
-    const prev = walletState.friendCount as number
-
-    const [oldPDA, ] = await PublicKey
-    .findProgramAddress(
-        [
-            anchor.utils.bytes.utf8.encode("friend"),
-            profilePDA.toBuffer(),
-            new anchor.BN(prev).toArrayLike(Buffer, 'le')
-        ],
-        program.programId
-    );
-
     const [friendPDA, ] = await PublicKey
     .findProgramAddress(
         [
             anchor.utils.bytes.utf8.encode("friend"),
-            profilePDA.toBuffer(),
-            new anchor.BN(prev - 1).toArrayLike(Buffer, 'le')
+            profilePDA.toBuffer()
         ],
         program.programId
     );
 
     await program.methods
-        .unfollow(friend)
+        .unfollow(friend, false)
         .accounts({
             profile: profilePDA,
-            oldPda: oldPDA,
             friendPda: friendPDA,
             user: provider.wallet.publicKey,
         })

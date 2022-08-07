@@ -8,17 +8,60 @@
         {
           "name": "nickname",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "username"
+              },
+              {
+                "kind": "arg",
+                "type": "string",
+                "path": "_uname"
+              }
+            ]
+          }
         },
         {
           "name": "profile",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "wallet"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "user"
+              }
+            ]
+          }
         },
         {
           "name": "friend",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "friend"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wallet",
+                "path": "profile"
+              }
+            ]
+          }
         },
         {
           "name": "user",
@@ -48,17 +91,60 @@
         {
           "name": "nickname",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "username"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wallet",
+                "path": "profile"
+              }
+            ]
+          }
         },
         {
           "name": "profile",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "wallet"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "user"
+              }
+            ]
+          }
         },
         {
           "name": "newNickname",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "username"
+              },
+              {
+                "kind": "arg",
+                "type": "string",
+                "path": "_uname"
+              }
+            ]
+          }
         },
         {
           "name": "user",
@@ -89,7 +175,21 @@
         {
           "name": "profile",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "wallet"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "user"
+              }
+            ]
+          }
         },
         {
           "name": "user",
@@ -115,17 +215,41 @@
         {
           "name": "profile",
           "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "oldPda",
-          "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "wallet"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "user"
+              }
+            ]
+          }
         },
         {
           "name": "friendPda",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "friend"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wallet",
+                "path": "profile"
+              }
+            ]
+          }
         },
         {
           "name": "user",
@@ -142,42 +266,10 @@
         {
           "name": "friend",
           "type": "publicKey"
-        }
-      ]
-    },
-    {
-      "name": "unfollow",
-      "accounts": [
-        {
-          "name": "profile",
-          "isMut": true,
-          "isSigner": false
         },
         {
-          "name": "oldPda",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "friendPda",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "friend",
-          "type": "publicKey"
+          "name": "add",
+          "type": "bool"
         }
       ]
     },
@@ -201,6 +293,71 @@
         },
         {
           "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "content",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "payToken",
+      "accounts": [
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "fromToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "toToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "txn",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
         }
@@ -239,6 +396,38 @@
         "fields": [
           {
             "name": "address",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenTransaction",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "payer",
+            "type": "publicKey"
+          },
+          {
+            "name": "payee",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "time",
+            "type": "i64"
+          },
+          {
+            "name": "content",
+            "type": "string"
+          },
+          {
+            "name": "mint",
             "type": "publicKey"
           }
         ]
@@ -284,14 +473,6 @@
           {
             "name": "pfpCid",
             "type": "bytes"
-          },
-          {
-            "name": "transactionCount",
-            "type": "u32"
-          },
-          {
-            "name": "friendCount",
-            "type": "u16"
           }
         ]
       }
@@ -310,11 +491,21 @@
     },
     {
       "code": 6002,
-      "name": "LongPfp",
-      "msg": "Profile Pic has oversized byte array"
+      "name": "InvalidPfp",
+      "msg": "Please use a valid profile picture."
+    },
+    {
+      "code": 6003,
+      "name": "DuplicateFriend",
+      "msg": "You are already friends with this user."
+    },
+    {
+      "code": 6004,
+      "name": "FriendNotFound",
+      "msg": "You are not currently friends with this user."
     }
   ],
   "metadata": {
-    "address": "GAVeDzE1MTuue5LByvn1na4DmbBe9KXrkJsnMmZkEHnH"
+    "address": "4ZVtYu1Zanzb1Dbyi99wm15FF83obUieXn7ZrFeCMNKx"
   }
 }
