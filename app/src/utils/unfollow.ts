@@ -27,7 +27,7 @@ export default async function unfollow(friend: PublicKey, wallet: WalletContextS
     );
 
     await program.methods
-        .unfollow(friend, false)
+        .follow(friend, false)
         .accounts({
             profile: profilePDA,
             friendPda: friendPDA,

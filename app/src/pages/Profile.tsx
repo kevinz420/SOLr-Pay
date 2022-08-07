@@ -192,7 +192,8 @@ export const Profile: React.FC = () => {
                             isSuccess: true,
                             text: "Friend successfully removed.",
                           });
-                        } catch {
+                        } catch(err) {
+                          console.log(err);
                           setToast({
                             visible: true,
                             isSuccess: false,
