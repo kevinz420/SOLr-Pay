@@ -65,7 +65,7 @@ export const Profile: React.FC = () => {
         setTxns(await getTxns(wallet, connection, [pubkey]));
       })();
       const walletState = await getWallet(wallet, connection, pubkey);
-      const count = walletState.friendCount ;
+      const count = walletState.friendCount;
       const pfpURL = `https://ipfs.infura.io/ipfs/${(
         walletState.pfpCid 
       ).toString()}`;
