@@ -74,7 +74,7 @@ export const Header: React.FC = () => {
   return (
     <Disclosure as="nav" className="w-screen bg-gray-800">
       <div className="max-w-screen-xl mx-auto h-20 flex p-4 items-center justify-between">
-        <Link to="/" className="h-full w-28 sm:w-32">
+        <Link to="/" className="h-full w-28">
           <img src={logo} alt="" className="h-full" />
         </Link>
 
@@ -117,6 +117,7 @@ export const Header: React.FC = () => {
           <div className="flex gap-2.5 items-center">
             <Button
               color="primary"
+              className="hidden md:flex"
               onClick={() => {
                 navigate("/payment");
               }}
@@ -129,6 +130,7 @@ export const Header: React.FC = () => {
               <div>
                 <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                   <span className="sr-only">Open user menu</span>
+                  <Link className="w-10 h-10 absolute md:hidden" to={`/users/${user.username}`}/>
                   <img
                     className="h-10 w-10 rounded-full"
                     src={user.pfpURL === "" ? ufo : user.pfpURL}
@@ -145,7 +147,7 @@ export const Header: React.FC = () => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-10 focus:outline-none">
+                <Menu.Items className="hidden md:block origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-10 focus:outline-none">
                   <Menu.Item>
                     {({ active }) => (
                       <Link
@@ -174,45 +176,6 @@ export const Header: React.FC = () => {
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
-                      <Link
-                        to="/settings"
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700 xl:hidden"
-                        )}
-                      >
-                        Docs
-                      </Link>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link
-                        to="/settings"
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700 xl:hidden"
-                        )}
-                      >
-                        Support
-                      </Link>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link
-                        to="/settings"
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700 xl:hidden"
-                        )}
-                      >
-                        Twitter
-                      </Link>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
                       <WalletDisconnectButton
                         startIcon={undefined}
                         className={classNames(
@@ -227,7 +190,7 @@ export const Header: React.FC = () => {
             </Menu>
           </div>
         ) : (
-          <WalletMultiButton />
+          <WalletMultiButton/>
         )}
       </div>
       <form className="block w-screen pb-5 px-4 z-0 md:hidden">
@@ -253,7 +216,5 @@ export const Header: React.FC = () => {
           </Input>
         </form>
     </Disclosure>
-
-    
   );
 };

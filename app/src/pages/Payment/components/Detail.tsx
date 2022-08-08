@@ -7,6 +7,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
 import { ProfileType } from "../../../interfaces/types";
 import getUser from "../../../utils/get-user";
+import paySol from "../../../utils/pay-sol";
 import pay from "../../../utils/pay";
 
 interface DetailProps {
@@ -16,7 +17,7 @@ interface DetailProps {
 
 export const Detail: React.FC<DetailProps> = (props) => {
   const [amount, setAmount] = useState("");
-  const [currency, setCurrency] = useState<"SOL" | "USD">("USD");
+  const [currency, setCurrency] = useState<"SOL" | "USDC">("USDC");
   const [address, setAddress] = useState("");
   const [toast, setToast] = useState({
     visible: false,
@@ -27,18 +28,6 @@ export const Detail: React.FC<DetailProps> = (props) => {
 
   const wallet = useWallet();
   const { connection } = useConnection();
-
-  const convertPrice = async (amount: string) => {
-    if (currency === "USD") {
-      const response = await fetch(
-        "https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDC"
-      );
-      const data = await response.json();
-      return parseFloat(amount) / parseFloat(data.price);
-    }
-
-    return parseFloat(amount);
-  };
 
   const handleSubmit = async () => {
     if (
@@ -55,15 +44,25 @@ export const Detail: React.FC<DetailProps> = (props) => {
     }
 
     try {
-      await pay(
-        await convertPrice(amount),
-        note.current!.value,
-        new PublicKey(address),
-        wallet,
-        connection
-      );
+      currency === "SOL"
+        ? await paySol(
+            parseFloat(amount),
+            note.current!.value,
+            new PublicKey(address),
+            wallet,
+            connection
+          )
+        : await pay(
+            parseFloat(amount),
+            note.current!.value,
+            new PublicKey(address),
+            new PublicKey("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"), // USDC Devnet mint address
+            wallet,
+            connection
+          );
       setToast({ visible: true, isSuccess: true, text: "Payment successful." });
-    } catch {
+    } catch(e) {
+      console.log(e);
       setToast({
         visible: true,
         isSuccess: false,
@@ -77,7 +76,7 @@ export const Detail: React.FC<DetailProps> = (props) => {
       if (props.user.username === "") return;
 
       const data = await getUser(wallet, connection, props.user.username);
-      setAddress((data.address).toString());
+      setAddress(data.address.toString());
     })();
   }, [props.user.username]);
 
@@ -108,7 +107,7 @@ export const Detail: React.FC<DetailProps> = (props) => {
 
         <button
           className="w-1/3 h-6 bg-gray-900 rounded-2xl cursor-pointer mb-3 mt-1 text-center text-gray-300 font-semibold"
-          onClick={() => setCurrency(currency === "SOL" ? "USD" : "SOL")}
+          onClick={() => setCurrency(currency === "SOL" ? "USDC" : "SOL")}
         >
           {currency}
         </button>

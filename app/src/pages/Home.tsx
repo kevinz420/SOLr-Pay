@@ -29,7 +29,7 @@ export const Home: React.FC = () => {
 
   return (
     <div className="h-screen">
-      <div className="flex flex-col items-center gap-3 bg-gray-800 py-16 rounded-t-xl mt-20 w-3/4 mx-auto h-full">
+      <div className="flex flex-col items-center gap-3 md:bg-gray-800 py-16 rounded-t-xl mt-20 w-3/4 mx-auto h-full">
         <div className="flex justify-between w-3/4 mb-8">
           <h1 className="text-4xl font-medium text-white">Transaction Feed</h1>
 
