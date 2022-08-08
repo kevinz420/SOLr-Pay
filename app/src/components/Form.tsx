@@ -206,7 +206,7 @@ export const Form: React.FC<FormProps> = (props) => {
       <div className="block h-px self-end w-11/12 bg-gray-500 md:hidden"/>
       
       <Card>
-        <div className="flex flex-col place-self-center gap-4 mt-6 w-11/12 md:w-full">
+        <div className="flex flex-col place-self-start gap-4 mt-6 md:mt-4 w-11/12 md:w-full">
           <div className="flex justify-between">
             <div className="h-5 w-32 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800 md:w-48"></div>
             <h1 className="text-green-500 font-bold">38 USDC</h1>
@@ -216,7 +216,7 @@ export const Form: React.FC<FormProps> = (props) => {
       </Card>
 
       <Card>
-        <div className="flex flex-col place-self-center gap-4 mt-6 w-11/12 md:w-full">
+        <div className="flex flex-col place-self-start gap-4 mt-6 md:mt-4 w-11/12 md:w-full">
           <div className="flex justify-between">
             <div className="h-5 w-36 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800"></div>
             <h1 className="text-red-500 font-bold">-1 SOL</h1>
@@ -226,7 +226,7 @@ export const Form: React.FC<FormProps> = (props) => {
       </Card>
 
       <Card>
-        <div className="flex flex-col place-self-center gap-4 mt-6 w-11/12 md:w-full">
+        <div className="flex flex-col place-self-start gap-4 mt-6 md:mt-4 w-11/12 md:w-full">
           <div className="flex justify-between">
             <div className="h-5 w-40 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800 md:w-44"></div>
             <h1 className="text-green-500 font-bold">2.3 SOL</h1>
@@ -236,7 +236,7 @@ export const Form: React.FC<FormProps> = (props) => {
       </Card>
 
       <Card>
-        <div className="flex flex-col place-self-center gap-4 mt-6 w-11/12 md:w-full">
+        <div className="flex flex-col place-self-start gap-4 mt-6 md:mt-4 w-11/12 md:w-full">
           <div className="flex justify-between">
             <div className="h-5 w-28 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800"></div>
             <h1 className="text-green-500 font-bold">12 USDT</h1>

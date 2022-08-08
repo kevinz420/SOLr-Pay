@@ -14,7 +14,7 @@ export const Card: React.FC<CardProps> = (props) => {
   return (
     <>
       <div
-        className="bg-gray-800 p-0 text-white rounded-none relative gap-0 self-end flex flex-col h-28 w-11/12 mb-0 md:pl-10 md:pr-5 md:bg-gray-900 md:mb-2 md:p-2 md:rounded-xl md:gap-3 md:w-3/4"
+        className="bg-gray-800 p-0 text-white rounded-none relative gap-0 self-end flex flex-col h-28 w-11/12 mb-0 md:pl-10 md:self-auto md:pr-5 md:bg-gray-900 md:mb-2 md:p-2 md:rounded-xl md:gap-3 md:w-3/4"
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
