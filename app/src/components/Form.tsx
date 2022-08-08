@@ -144,8 +144,8 @@ export const Form: React.FC<FormProps> = (props) => {
   };
 
   return (
-    <div className="py-14 flex gap-3 bg-gray-800 w-screen items-center rounded-none flex-col h-max md:rounded-xl md:w-1/2">
-      <div className="flex gap-10 mb-8 justify-center items-start">
+    <div className="pb-10 flex gap-0 bg-gray-800 w-screen items-center rounded-none flex-col h-max md:py-14 md:bg-gray-800 md:gap-3 md:rounded-xl md:w-1/2">
+      <div className="pt-10 flex gap-10 mb-8 justify-center items-start md:pt-0">
         <div className="flex justify-center items-center">
           <label
             className={classNames(
@@ -203,43 +203,45 @@ export const Form: React.FC<FormProps> = (props) => {
         </div>
       </div>
 
+      <div className="block h-px self-end w-11/12 bg-gray-500 md:hidden"/>
+      
       <Card>
-        <div className="flex flex-col gap-4 mt-3">
+        <div className="flex flex-col place-self-center gap-4 mt-6 w-11/12 md:w-full">
           <div className="flex justify-between">
-            <div className="h-5 w-32 bg-slate-800 md:w-48"></div>
+            <div className="h-5 w-32 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800 md:w-48"></div>
             <h1 className="text-green-500 font-bold">38 USDC</h1>
           </div>
-          <div className="mb-3 h-3 w-28 bg-slate-800 md:w36"></div>
+          <div className="mb-3 h-3 w-28 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800 md:w36"></div>
         </div>
       </Card>
 
       <Card>
-        <div className="flex flex-col gap-4 mt-3">
+        <div className="flex flex-col place-self-center gap-4 mt-6 w-11/12 md:w-full">
           <div className="flex justify-between">
-            <div className="h-5 w-36 bg-slate-800"></div>
+            <div className="h-5 w-36 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800"></div>
             <h1 className="text-red-500 font-bold">-1 SOL</h1>
           </div>
-          <div className="mb-3 h-3 w-56 bg-slate-800"></div>
+          <div className="mb-3 h-3 w-56 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800"></div>
         </div>
       </Card>
 
       <Card>
-        <div className="flex flex-col gap-4 mt-3">
+        <div className="flex flex-col place-self-center gap-4 mt-6 w-11/12 md:w-full">
           <div className="flex justify-between">
-            <div className="h-5 w-40 bg-slate-800 md:w-44"></div>
+            <div className="h-5 w-40 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800 md:w-44"></div>
             <h1 className="text-green-500 font-bold">2.3 SOL</h1>
           </div>
-          <div className="mb-3 h-3 w-24 bg-slate-800"></div>
+          <div className="mb-3 h-3 w-24 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800"></div>
         </div>
       </Card>
 
       <Card>
-        <div className="flex flex-col gap-4 mt-3">
+        <div className="flex flex-col place-self-center gap-4 mt-6 w-11/12 md:w-full">
           <div className="flex justify-between">
-            <div className="h-5 w-28 bg-slate-800"></div>
+            <div className="h-5 w-28 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800"></div>
             <h1 className="text-green-500 font-bold">12 USDT</h1>
           </div>
-          <div className="mb-3 h-3 w-52 bg-slate-800"></div>
+          <div className="mb-3 h-3 w-52 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800"></div>
         </div>
       </Card>
       <Toast toast={toast} setToast={setToast} />
