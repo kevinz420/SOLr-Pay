@@ -14,7 +14,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({}) => {
     const user = useAppSelector((state) => state.user);
 
     return (
-    <div className="sticky bottom-0 md:hidden h-20 w-full bg-gray-900 pt-3 flex items-start justify-around">
+    <div className="sticky bottom-0 items-start h-16 w-full bg-gray-900 pt-3 flex justify-around md:hidden">
       <Link to="/">
         <HomeIcon className="w-8 text-gray-300" />
       </Link>

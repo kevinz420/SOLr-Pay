@@ -113,7 +113,7 @@ export const Input: React.FC<InputProps> = (props) => {
             <Combobox.Options
               className={`absolute mt-2 w-full overflow-auto rounded-md ${
                 props.isPayment
-                  ? "bg-gray-800 !shadow-none h-[34rem] mt-8"
+                  ? "bg-gray-800 !shadow-none h-64 mt-8 md:h-[34rem]"
                   : "bg-gray-600 max-h-96"
               } text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-10 scrollbar-hide`}
             >

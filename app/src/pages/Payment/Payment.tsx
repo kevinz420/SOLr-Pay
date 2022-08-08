@@ -11,7 +11,7 @@ export const Payment: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen flex justify-center gap-5">
+    <div className="min-h-screen flex flex-col justify-center gap-5 md:flex-row">
       <Search user={user} setUser={setUser} />
       <Detail user={user} setUser={setUser} />
     </div>

@@ -81,7 +81,7 @@ export const Detail: React.FC<DetailProps> = (props) => {
   }, [props.user.username]);
 
   return (
-    <div className="rounded-xl p-10 mt-20 flex justify-start items-center gap-3 bg-gray-800 w-4/12 flex-col h-fit">
+    <div className="rounded-xl p-10 mt-0 mb-5 flex justify-start self-center items-center gap-3 bg-gray-800 w-11/12 flex-col h-fit md:self-auto md:w-4/12 md:mt-20">
       <img
         src={props.user.username === "" ? ufo : props.user.pfpURL}
         className="w-20 h-20 rounded-full"

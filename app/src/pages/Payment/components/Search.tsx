@@ -10,7 +10,7 @@ interface SearchProps {
 
 export const Search: React.FC<SearchProps> = (props) => {
   return (
-    <div className="rounded-xl p-8 my-20 flex justify-start items-center bg-gray-800 w-4/12 h-fit flex-col">
+    <div className="rounded-xl p-8 mt-8 mb-0 flex justify-start items-center bg-gray-800 w-11/12 h-fit flex-col self-center md:my-20 md:w-4/12 md:h-fit md:self-auto">
       <div className="w-11/12 relative">
         <Input
           placeholder="Find a friend to pay..."
@@ -20,7 +20,7 @@ export const Search: React.FC<SearchProps> = (props) => {
           <SparklesIcon className="h-6 w-6 text-gray-400" />
         </Input>
 
-        <div className="my-64">
+        <div className="my-36 md:my-64">
           <h1 className="text-xl text-gray-400 text-center font-semibold">
             Start your search for profiles
           </h1>
