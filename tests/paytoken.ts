@@ -71,6 +71,16 @@ describe('solrpay', () => {
         const mintInfo = await getMint(connection, mint);
         const LAMPORTS_PER_MINT = Math.pow(10, mintInfo.decimals);
 
+        const test = await getAssociatedTokenAddress(
+            mint,
+            to.publicKey,
+            true,
+            TOKEN_PROGRAM_ID,
+            ASSOCIATED_TOKEN_PROGRAM_ID
+        )
+
+        console.log(test.toBase58())
+
         const toATA = await getOrCreateAssociatedTokenAccount(
             connection,
             payer,

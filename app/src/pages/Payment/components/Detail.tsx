@@ -85,7 +85,7 @@ export const Detail: React.FC<DetailProps> = (props) => {
     <div className="rounded-xl p-10 mt-20 flex justify-start items-center gap-3 bg-gray-800 w-4/12 flex-col h-fit">
       <img
         src={props.user.username === "" ? ufo : props.user.pfpURL}
-        className="w-20 rounded-full"
+        className="w-20 h-20 rounded-full"
       />
       <h1 className="text-2xl text-white font-medium">{props.user.username}</h1>
       <p className="text-gray-400 mb-5">
@@ -101,7 +101,7 @@ export const Detail: React.FC<DetailProps> = (props) => {
                 : amount
             )
           }
-          className="w-full text-center bottom-0 bg-gray-800  text-white text-5xl font-bold placeholder:text-gray-600 block outline-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="w-full text-center bottom-0 bg-gray-800  text-white text-5xl font-bold placeholder:text-gray-600 block outline-0"
           placeholder={(currency === "SOL" ? "◎" : "$") + "0.00"}
           required
         />

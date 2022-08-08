@@ -153,7 +153,7 @@ export const Input: React.FC<InputProps> = (props) => {
                         >
                           <img
                             src={item.pfpURL}
-                            className="h-10 rounded-full"
+                            className="h-10 w-10 rounded-full"
                           />
                           {item.username}
                         </span>

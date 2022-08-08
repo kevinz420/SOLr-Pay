@@ -8,60 +8,17 @@
         {
           "name": "nickname",
           "isMut": true,
-          "isSigner": false,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "type": "string",
-                "value": "username"
-              },
-              {
-                "kind": "arg",
-                "type": "string",
-                "path": "_uname"
-              }
-            ]
-          }
+          "isSigner": false
         },
         {
           "name": "profile",
           "isMut": true,
-          "isSigner": false,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "type": "string",
-                "value": "wallet"
-              },
-              {
-                "kind": "account",
-                "type": "publicKey",
-                "path": "user"
-              }
-            ]
-          }
+          "isSigner": false
         },
         {
           "name": "friend",
           "isMut": true,
-          "isSigner": false,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "type": "string",
-                "value": "friend"
-              },
-              {
-                "kind": "account",
-                "type": "publicKey",
-                "account": "Wallet",
-                "path": "profile"
-              }
-            ]
-          }
+          "isSigner": false
         },
         {
           "name": "user",
@@ -91,60 +48,17 @@
         {
           "name": "nickname",
           "isMut": true,
-          "isSigner": false,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "type": "string",
-                "value": "username"
-              },
-              {
-                "kind": "account",
-                "type": "publicKey",
-                "account": "Wallet",
-                "path": "profile"
-              }
-            ]
-          }
+          "isSigner": false
         },
         {
           "name": "profile",
           "isMut": true,
-          "isSigner": false,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "type": "string",
-                "value": "wallet"
-              },
-              {
-                "kind": "account",
-                "type": "publicKey",
-                "path": "user"
-              }
-            ]
-          }
+          "isSigner": false
         },
         {
           "name": "newNickname",
           "isMut": true,
-          "isSigner": false,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "type": "string",
-                "value": "username"
-              },
-              {
-                "kind": "arg",
-                "type": "string",
-                "path": "_uname"
-              }
-            ]
-          }
+          "isSigner": false
         },
         {
           "name": "user",
@@ -175,21 +89,7 @@
         {
           "name": "profile",
           "isMut": true,
-          "isSigner": false,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "type": "string",
-                "value": "wallet"
-              },
-              {
-                "kind": "account",
-                "type": "publicKey",
-                "path": "user"
-              }
-            ]
-          }
+          "isSigner": false
         },
         {
           "name": "user",
@@ -215,41 +115,12 @@
         {
           "name": "profile",
           "isMut": true,
-          "isSigner": false,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "type": "string",
-                "value": "wallet"
-              },
-              {
-                "kind": "account",
-                "type": "publicKey",
-                "path": "user"
-              }
-            ]
-          }
+          "isSigner": false
         },
         {
           "name": "friendPda",
           "isMut": true,
-          "isSigner": false,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "type": "string",
-                "value": "friend"
-              },
-              {
-                "kind": "account",
-                "type": "publicKey",
-                "account": "Wallet",
-                "path": "profile"
-              }
-            ]
-          }
+          "isSigner": false
         },
         {
           "name": "user",
@@ -506,6 +377,6 @@
     }
   ],
   "metadata": {
-    "address": "4ZVtYu1Zanzb1Dbyi99wm15FF83obUieXn7ZrFeCMNKx"
+    "address": "J2tPvtCtZ81u9QFZMi2ATVWnKVWjRU4P7TbJ1Q4wudMK"
   }
 }
