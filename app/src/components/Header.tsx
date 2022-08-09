@@ -130,7 +130,7 @@ export const Header: React.FC = () => {
               <div>
                 <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                   <span className="sr-only">Open user menu</span>
-                  <Link className="w-10 h-10 absolute md:hidden" to={`/users/${user.username}`}/>
+                  <Link className="w-10 h-10 absolute rounded-full outline outline-1 outline-gray-200 md:hidden" to={`/users/${user.username}`}/>
                   <img
                     className="h-10 w-10 rounded-full"
                     src={user.pfpURL === "" ? ufo : user.pfpURL}

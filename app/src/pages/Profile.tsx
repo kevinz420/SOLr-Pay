@@ -121,14 +121,14 @@ export const Profile: React.FC = () => {
 
   return (
     <div className="h-screen">
-      <div className="rounded-none p-0 py-10 my-0 h-full flex justify-start items-center gap-5 w-screen mx-auto flex-col md:w-3/4 md:rounded-t-xl md:bg-gray-800 md:my-20 md:p-8 md:py-14">
-        <div className="flex flex-row pl-4 md:gap-12 mb-14 md:pl-0">
+      <div className="rounded-none p-0 pt-10 my-0 h-full flex justify-start items-center w-screen mx-auto flex-col md:gap-5 md:w-3/4 md:rounded-t-xl md:bg-gray-800 md:my-20 md:p-8 md:py-14">
+        <div className="flex flex-row pl-4 mb-4 md:gap-12 md:mb-14 md:pl-0">
           <img
             src={profile.pfpURL}
-            className="rounded-full w-20 h-20 outline outline-white md:w-36 md:h-36"
+            className="rounded-full w-20 h-20 outline outline-gray-800 md:outline-white md:w-36 md:h-36"
           />
           <div className="flex flex-col">
-            <div className="flex justify-between items-center px-4 md:px-0">
+            <div className="flex justify-between items-center pl-4 pr-2 md:px-0 flex-wrap gap-1.5">
               <h1 className="font-bold text-xl md:text-white md:text-4xl">
                 {profile.username}
               </h1>
@@ -153,7 +153,7 @@ export const Profile: React.FC = () => {
               />
             </p>
 
-            <div className="grid grid-cols-2 gap-5">
+            <div className="px-4 grid grid-cols-2 gap-3 md:gap-5">
               {handle === user.username ? (
                 <Button
                   color="primary"
@@ -227,23 +227,25 @@ export const Profile: React.FC = () => {
           </div>
         </div>
 
+        <div className="block h-px self-end w-11/12 bg-gray-300 mt-3 md:hidden"></div>
+
         {txns.length > 0 ? (
-          <div className="w-full flex flex-col items-center gap-3">
+          <div className="w-full h-full flex flex-col items-center gap-0 bg-gray-100 md:bg-transparent md:gap-3 md:h-auto">
             {txns.map((txn) => (
               <Card>
                 <div className="flex justify-between mt-4">
-                  <div className="flex items-center gap-5">
+                  <div className="flex gap-5 items-start md:items-center">
                     <img
                       src={
                         txn.payer.username === "You"
                           ? user.pfpURL
                           : txn.payer.pfpURL
                       }
-                      className="w-12 h-12 rounded-full mt-1"
+                      className="w-12 h-12 rounded-full mt-1 outline outline-1 outline-gray-500 md:outline-none"
                     />
                     <div>
-                      <div className="flex items-center gap-1.5 ">
-                        <h2 className="">
+                      <div className="flex items-center gap-0 flex-col md:gap-1.5 md:flex-row">
+                        <h2 className="self-start text-gray-800 md:text-current md:self-auto">
                           <b
                             onClick={() =>
                               navigate(
@@ -276,14 +278,15 @@ export const Profile: React.FC = () => {
                               txn.payee.username.slice(1)}
                           </b>
                         </h2>
-                        <p className="text-sm text-gray-300">• {txn.time}</p>
+                        <p className="hidden self-auto text-sm text-gray-300 md:block">• {txn.time}</p>
+                        <p className="self-start text-xs text-gray-700 md:hidden pb-2"> {txn.time}</p>
                       </div>
-                      <h1 className="text-lg">{txn.content}</h1>
+                      <h1 className="text-sm text-gray-800 md:current md:text-lg">{txn.content}</h1>
                     </div>
                   </div>
 
                   <h1
-                    className={`font-bold ${
+                    className={`pr-6 text-sm font-bold md:pr-0 md:text-base ${
                       txn.payer.username === "You"
                         ? "text-red-500"
                         : "text-green-500"
@@ -296,10 +299,10 @@ export const Profile: React.FC = () => {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-8 md:my-20">
+          <div className="flex flex-col items-center gap-8 mt-6 md:my-20">
             <img src={planet} className="h-52" />
 
-            <h1 className="text-2xl text-gray-400">
+            <h1 className="text-2xl text-gray-400 text-center">
               Looks like there are no signs of life detected 😔
             </h1>
           </div>
