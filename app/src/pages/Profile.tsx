@@ -129,15 +129,15 @@ export const Profile: React.FC = () => {
           />
           <div className="flex flex-col">
             <div className="flex justify-between items-center pl-4 pr-2 md:px-0 flex-wrap gap-1.5">
-              <h1 className="font-bold text-xl md:text-white md:text-4xl">
+              <h1 className="font-bold text-lg md:text-white md:text-4xl">
                 {profile.username}
               </h1>
-              <h2 className="text-white font-semibold bg-slate-700 p-1 rounded-xl w-28 h-8 text-center">
+              <h2 className="text-white font-semibold text-xs bg-slate-700 p-1 rounded-xl w-20 h-6 text-center md:text-base md:h-8 md:w-28">
                 {friend.count === 1 ? "1 Friend" : `${friend.count} Friends`}
               </h2>
             </div>
             
-            <p className="mt-2 mb-8 text-gray-600 md:text-gray-400 flex gap-3 px-4 md:px-0">
+            <p className="mt-2 mb-3 text-gray-600 md:text-gray-400 flex gap-3 px-4 md:px-0 md:mb-8">
               {profile.pk?.toString().slice(0, 13) +
                 "..."}
               <DuplicateIcon
@@ -153,7 +153,12 @@ export const Profile: React.FC = () => {
               />
             </p>
 
-            <div className="px-4 grid grid-cols-2 gap-3 md:gap-5">
+            <div className={`px-4 grid-cols-2 gap-3 md:gap-5 md:px-0 ${
+              handle == user.username
+                ? "grid"
+                : "hidden bt:grid"
+            }`}
+            >
               {handle === user.username ? (
                 <Button
                   color="primary"
@@ -225,6 +230,85 @@ export const Profile: React.FC = () => {
               )}
             </div>
           </div>
+        </div>
+
+        <div>
+          <div className={`px-6 grid-cols-2 gap-3 md:gap-5 w-screen py-3 ${
+            handle == user.username
+            ? "hidden"
+            : "grid bt:hidden"
+          }`}
+          >
+                {handle === user.username ? (
+                  <Button
+                    color="primary"
+                    onClick={() => {
+                      navigate("/settings");
+                    }}
+                  >
+                    Edit Profile
+                  </Button>
+                ) : (
+                  <>
+                    {friend.isFriend ? (
+                      <Button
+                        color="secondary"
+                        onClick={async () => {
+                          try {
+                            await unfollow(profile.pk!, wallet, connection);
+                            setToast({
+                              visible: true,
+                              isSuccess: true,
+                              text: "Friend successfully removed.",
+                            });
+                          } catch(err) {
+                            console.log(err);
+                            setToast({
+                              visible: true,
+                              isSuccess: false,
+                              text: "Please try again.",
+                            });
+                          }
+                          await updateFriends();
+                        }}
+                      >
+                        Unfriend <UserRemoveIcon className="h-5 text-gray-200" />
+                      </Button>
+                    ) : (
+                      <Button
+                        color="secondary"
+                        onClick={async () => {
+                          try {
+                            await follow(profile.pk!, wallet, connection);
+                            setToast({
+                              visible: true,
+                              isSuccess: true,
+                              text: "Friend successfully added.",
+                            });
+                          } catch {
+                            setToast({
+                              visible: true,
+                              isSuccess: false,
+                              text: "Please try again.",
+                            });
+                          }
+                          await updateFriends();
+                        }}
+                      >
+                        Add Friend <UserAddIcon className="h-5 text-gray-200" />
+                      </Button>
+                    )}
+                    <Button
+                      color="primary"
+                      onClick={() =>
+                        navigate("/payment", { state: { user: profile } })
+                      }
+                    >
+                      Pay or Request
+                    </Button>
+                  </>
+                )}
+            </div>
         </div>
 
         <div className="block h-px self-end w-11/12 bg-gray-300 mt-3 md:hidden"></div>
@@ -299,10 +383,10 @@ export const Profile: React.FC = () => {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-8 mt-6 md:my-20">
-            <img src={planet} className="h-52" />
+          <div className="flex flex-col items-center gap-8 mt-12 md:my-20">
+            <img src={planet} className="h-32 md:h-52" />
 
-            <h1 className="text-2xl text-gray-400 text-center">
+            <h1 className="text-lg px-8 text-gray-400 text-center md:text-2xl md:px-0">
               Looks like there are no signs of life detected 😔
             </h1>
           </div>

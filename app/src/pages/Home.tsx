@@ -91,7 +91,7 @@ export const Home: React.FC = () => {
                           ? user.pfpURL
                           : txn.payer.pfpURL
                       }
-                      className="w-12 h-12 rounded-full outline outline-1 outline-gray-500 md:outline-none"
+                      className="w-12 h-12 rounded-full outline outline-1 outline-gray-500 md:outline-gray-300"
                     />
                     <div>
                       <div className="flex gap-1.5 flex-col items-start md:items-center md:flex-row">
@@ -149,9 +149,9 @@ export const Home: React.FC = () => {
             ))}
           </div>
         ) : (
-          <div className="my-16 flex justify-start items-center flex-col gap-16 w-1/2 text-center">
-            <img src={empty} alt="" className="w-1/2" />
-            <h1 className="text-2xl text-gray-500">
+          <div className="my-16 flex justify-start items-center flex-col gap-8 w-1/2 text-center md:gap-16">
+            <img src={empty} alt="" className="w-full md:w-1/2" />
+            <h1 className="md:text-2xl text-gray-500">
               Ready for takeoff. Start exploring the Solr System by making your
               first payment.
             </h1>

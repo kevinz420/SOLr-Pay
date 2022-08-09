@@ -132,7 +132,7 @@ export const Header: React.FC = () => {
                   <span className="sr-only">Open user menu</span>
                   <Link className="w-10 h-10 absolute rounded-full outline outline-1 outline-gray-200 md:hidden" to={`/users/${user.username}`}/>
                   <img
-                    className="h-10 w-10 rounded-full"
+                    className="h-10 w-10 rounded-full outline outline-1 outline-gray-400"
                     src={user.pfpURL === "" ? ufo : user.pfpURL}
                     alt=""
                   />

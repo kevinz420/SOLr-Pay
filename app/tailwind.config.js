@@ -9,6 +9,7 @@ module.exports = {
       },
       screens: {
         'exsm': '380px',
+        'bt': '417px',
       }
     },
   },
