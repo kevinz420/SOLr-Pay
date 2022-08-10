@@ -28,7 +28,7 @@ export const Home: React.FC = () => {
   }, [wallet.connected]);
 
   return (
-    <div className="h-screen">
+    <div className="min-h-screen">
       <div className="flex flex-col items-center gap-0 py-0 rounded-t-xl w-screen mx-0 h-full md:gap-3 md:w-3/4 md:mx-auto md:py-16 md:mt-20 md:bg-gray-800">
         <div className="flex flex-col justify-between w-full items-center md:mb-10 md:w-3/4 md:flex-row">
           <h1 className="hidden font-body text-4xl pb-0 font-medium text-white md:block">Transaction Feed</h1>

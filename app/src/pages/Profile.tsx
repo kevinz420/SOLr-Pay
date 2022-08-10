@@ -365,7 +365,7 @@ export const Profile: React.FC = () => {
                         <p className="hidden self-auto text-sm text-gray-300 md:block">• {txn.time}</p>
                         <p className="self-start text-xs text-gray-700 md:hidden pb-2"> {txn.time}</p>
                       </div>
-                      <h1 className="text-sm text-gray-800 md:current md:text-lg">{txn.content}</h1>
+                      <h1 className="text-sm text-gray-800 md:text-gray-300 md:current md:text-lg">{txn.content}</h1>
                     </div>
                   </div>
 

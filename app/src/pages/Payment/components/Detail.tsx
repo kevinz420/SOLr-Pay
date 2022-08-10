@@ -29,16 +29,22 @@ export const Detail: React.FC<DetailProps> = (props) => {
   const wallet = useWallet();
   const { connection } = useConnection();
 
+  const isFloat = async (val) => {
+    if (typeof val != "string") { return false }
+    return !isNaN(val as any) && !isNaN(parseFloat(val));
+  }
+
   const handleSubmit = async () => {
     if (
       amount === "" ||
       props.user.username === "" ||
-      note.current!.value === ""
+      note.current!.value === "" ||
+      await isFloat(amount)
     ) {
       setToast({
         visible: true,
         isSuccess: false,
-        text: "Oops! A required field is missing.",
+        text: "Oops! A required field is missing or invalid.",
       });
       return;
     }
