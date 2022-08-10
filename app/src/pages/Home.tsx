@@ -83,7 +83,7 @@ export const Home: React.FC = () => {
           <div className="w-full flex flex-col items-center gap-0 bg-gray-100 md:bg-transparent md:gap-3">
             {txns.map((txn) => (
               <Card>
-                <div className="flex justify-between mt-4">
+                <div className="mt-4">
                   <div className="flex items-start gap-5 md:items-center">
                     <img
                       src={
@@ -93,57 +93,60 @@ export const Home: React.FC = () => {
                       }
                       className="w-12 h-12 rounded-full outline outline-1 outline-gray-500 md:outline-gray-300"
                     />
-                    <div>
-                      <div className="flex gap-1.5 flex-col items-start md:items-center md:flex-row">
-                        <h2 className="text-gray-800 md:text-current">
-                          <b
-                            onClick={() =>
-                              navigate(
-                                `/users/${
-                                  txn.payer.username === "You"
-                                    ? user.username
-                                    : txn.payer.username
-                                }`
-                              )
-                            }
-                            className="cursor-pointer"
-                          >
-                            {txn.payer.username.charAt(0).toUpperCase() +
-                              txn.payer.username.slice(1)}
-                          </b>{" "}
-                          paid{" "}
-                          <b
-                            onClick={() =>
-                              navigate(
-                                `/users/${
-                                  txn.payee.username === "You"
-                                    ? user.username
-                                    : txn.payee.username
-                                }`
-                              )
-                            }
-                            className="cursor-pointer"
-                          >
-                            {txn.payee.username.charAt(0).toUpperCase() +
-                              txn.payee.username.slice(1)}
-                          </b>
-                        </h2>
-                        <p className="text-sm text-gray-300 hidden md:block">• {txn.time}</p>
-                        <p className="text-xs text-gray-700 block md:hidden pb-2"> {txn.time}</p>
+                    <div className="w-full">
+                      <div className="items-start flex justify-between">
+                        <div className="flex gap-1.5 flex-col items-start md:items-center md:flex-row">
+                          <h2 className="text-gray-800 md:text-current">
+                            <b
+                              onClick={() =>
+                                navigate(
+                                  `/users/${
+                                    txn.payer.username === "You"
+                                      ? user.username
+                                      : txn.payer.username
+                                  }`
+                                )
+                              }
+                              className="cursor-pointer"
+                            >
+                              {txn.payer.username.charAt(0).toUpperCase() +
+                                txn.payer.username.slice(1)}
+                            </b>{" "}
+                            paid{" "}
+                            <b
+                              onClick={() =>
+                                navigate(
+                                  `/users/${
+                                    txn.payee.username === "You"
+                                      ? user.username
+                                      : txn.payee.username
+                                  }`
+                                )
+                              }
+                              className="cursor-pointer"
+                            >
+                              {txn.payee.username.charAt(0).toUpperCase() +
+                                txn.payee.username.slice(1)}
+                            </b>
+                          </h2>
+                          <p className="text-sm text-gray-300 hidden md:block">• {txn.time}</p>
+                          <p className="text-xs text-gray-700 block md:hidden pb-2"> {txn.time}</p>
+                        </div>
+
+                        <h1
+                          className={`pr-5 text-sm font-bold pt-0.5 md:pr-0 md:text-base ${
+                            txn.payer.username === "You"
+                              ? "text-red-500"
+                              : "text-green-500"
+                          }`}
+                        >
+                          {txn.amount.toFixed(2)} SOL
+                        </h1>
                       </div>
+                      
                       <h1 className="text-gray-800 text-sm md:text-current md:text-lg">{txn.content}</h1>
                     </div>
                   </div>
-
-                  <h1
-                    className={`pr-6 text-sm font-bold md:pr-0 md:text-base ${
-                      txn.payer.username === "You"
-                        ? "text-red-500"
-                        : "text-green-500"
-                    }`}
-                  >
-                    {txn.amount.toFixed(2)} SOL
-                  </h1>
                 </div>
               </Card>
             ))}

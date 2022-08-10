@@ -29,8 +29,7 @@ export const Detail: React.FC<DetailProps> = (props) => {
   const wallet = useWallet();
   const { connection } = useConnection();
 
-  const isFloat = async (val) => {
-    if (typeof val != "string") { return false }
+  const isFloat = async (val: string) => {
     return !isNaN(val as any) && !isNaN(parseFloat(val));
   }
 
