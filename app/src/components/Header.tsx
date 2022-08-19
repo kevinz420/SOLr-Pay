@@ -73,22 +73,22 @@ export const Header: React.FC = () => {
   }, [wallet.connected]);
 
   return (
-    <Disclosure as="nav" className="w-screen bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-800">
       <div className="max-w-screen-xl mx-auto h-20 flex p-4 items-center justify-between">
         <Link to="/" className="h-full w-28">
           <img src={logo} alt="" className="h-full" />
         </Link>
 
         <div className="hidden xl:flex gap-8 text-white font-semibold">
-          <Link to="/" className="h-full hover:text-gray-200">
+          <a href="/" className="h-full hover:text-gray-200">
             Docs
-          </Link>
-          <Link to="/" className="h-full hover:text-gray-200">
+          </a>
+          <a href="/" className="h-full hover:text-gray-200">
             Support
-          </Link>
-          <Link to="/" className="h-full hover:text-gray-200">
+          </a>
+          <a href="https://twitter.com/solrpay" target="_blank" rel="noopener noreferrer" className="h-full hover:text-gray-200">
             Twitter
-          </Link>
+          </a>
         </div>
 
         <form className="hidden w-2/5 md:block">

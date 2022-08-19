@@ -29,7 +29,7 @@ export const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="flex flex-col items-center gap-0 py-0 rounded-t-xl w-screen mx-0 h-full md:gap-3 md:w-3/4 md:mx-auto md:py-16 md:mt-20 md:bg-gray-800">
+      <div className="flex flex-col items-center gap-0 py-0 rounded-t-xl w-screen mx-0 min-h-screen md:gap-3 md:w-3/4 md:mx-auto md:py-16 md:mt-20 md:bg-gray-800">
         <div className="flex flex-col justify-between w-full items-center md:mb-10 md:w-3/4 md:flex-row">
           <h1 className="hidden font-body text-4xl pb-0 font-medium text-white md:block">Transaction Feed</h1>
           <div className="w-full bg-transparent flex justify-center items-center h-16 md:p-0 md:h-fit md:block md:w-fit">
@@ -134,7 +134,7 @@ export const Home: React.FC = () => {
                         </div>
 
                         <h1
-                          className={`pr-5 text-sm font-bold pt-0.5 md:pr-0 md:text-base ${
+                          className={`pr-5 text-sm font-bold pt-0.5 md:pr-0 md:text-base w-24 text-end ${
                             txn.payer.username === "You"
                               ? "text-red-500"
                               : "text-green-500"

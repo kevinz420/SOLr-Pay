@@ -120,8 +120,8 @@ export const Profile: React.FC = () => {
   }, [wallet.connected, handle, user.friends]);
 
   return (
-    <div className="h-screen">
-      <div className="rounded-none p-0 pt-10 my-0 h-full flex justify-start items-center w-screen mx-auto flex-col md:gap-5 md:w-3/4 md:rounded-t-xl md:bg-gray-800 md:my-20 md:p-8 md:py-14">
+    <div className="min-h-screen">
+      <div className="rounded-none p-0 pt-10 my-0 flex justify-start items-center w-screen min-h-screen mx-auto flex-col md:gap-5 md:w-3/4 md:rounded-t-xl md:bg-gray-800 md:my-20 md:p-8 md:py-14">
         <div className="flex flex-row pl-4 mb-4 md:gap-12 md:mb-14 md:pl-0">
           <img
             src={profile.pfpURL}
@@ -370,7 +370,7 @@ export const Profile: React.FC = () => {
                   </div>
 
                   <h1
-                    className={`pr-6 text-sm font-bold md:pr-0 md:text-base ${
+                    className={`pr-6 text-sm font-bold md:pr-0 md:text-base w-24 text-end ${
                       txn.payer.username === "You"
                         ? "text-red-500"
                         : "text-green-500"
@@ -386,7 +386,7 @@ export const Profile: React.FC = () => {
           <div className="flex flex-col items-center gap-8 mt-12 md:my-20">
             <img src={planet} className="h-32 md:h-52" />
 
-            <h1 className="text-lg px-8 text-gray-400 text-center md:text-2xl md:px-0">
+            <h1 className="text-lg px-8 md:text-gray-400 text-center md:text-2xl md:px-0">
               Looks like there are no signs of life detected 😔
             </h1>
           </div>

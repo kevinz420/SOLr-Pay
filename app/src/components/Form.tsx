@@ -71,27 +71,16 @@ export const Form: React.FC<FormProps> = (props) => {
 
     let pfpURL = user.pfpURL;
     let cid = "";
-    let data = new FormData();
 
     try {
       // send new image to IPFS if one is uploaded
       if (image !== user.pfpURL) {
         let file = await fetch(image)
-          .then((r) => r.blob())
-          .then(
-            (blobFile) => {
-              data.append("file", blobFile)
-            }
-          );
-
-        // console.log(data);
-
-        // await axios.post('http://localhost:5001', data).then(response => {
-        //     cid = response.data
-        // })
-
-        // console.log(cid);
-        
+          .then(r => r.blob())
+          
+        let data = new FormData();
+        data.append('pfp', file)
+        cid = (await axios.post('/api/upload', data)).data;
         pfpURL = `https://solr-pay.infura-ipfs.io/ipfs/${cid}`;
       }
 
