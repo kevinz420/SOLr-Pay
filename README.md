@@ -32,6 +32,6 @@ Current wallet intefaces put little effort into replicating the ease and conveni
   - Add and remove friends for quick access to frequent payees
   - See both you and your friends' transaction activity and usage of the protocol
 - Transaction Notes
- - Leave whoever you are paying a note, stored on the blockchain for all to view
+  - Send or request any token, adding a personal touch with transaction notes
  ### Design
  ![](https://cdn.discordapp.com/attachments/947631586818527252/995916132764635136/Untitled-2022-07-10-2124.png)
