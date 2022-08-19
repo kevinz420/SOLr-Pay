@@ -56,7 +56,7 @@ export const Input: React.FC<InputProps> = (props) => {
         users.map((user) => {
           return {
             username: user.account.username,
-            pfpURL: `https://ipfs.infura.io/ipfs/${(
+            pfpURL: `https://solr-pay.infura-ipfs.io/ipfs/${(
               user.account.pfpCid
             ).toString()}`,
           };

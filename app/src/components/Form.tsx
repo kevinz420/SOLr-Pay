@@ -12,7 +12,8 @@ import getFriends from "../utils/get-friends";
 import getUser from "../utils/get-user";
 import editProfile from "../utils/edit-profile";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { create } from "ipfs-http-client";
+import axios from 'axios'
+import FormData from 'form-data'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -37,7 +38,6 @@ export const Form: React.FC<FormProps> = (props) => {
   const wallet = useWallet();
   const { connection } = useConnection();
   const dispatch = useAppDispatch();
-  const client = create({ url: "https://ipfs.infura.io:5001/api/v0" });
 
   // sets preview image with uploaded file
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,6 +71,7 @@ export const Form: React.FC<FormProps> = (props) => {
 
     let pfpURL = user.pfpURL;
     let cid = "";
+    let data = new FormData();
 
     try {
       // send new image to IPFS if one is uploaded
@@ -78,11 +79,20 @@ export const Form: React.FC<FormProps> = (props) => {
         let file = await fetch(image)
           .then((r) => r.blob())
           .then(
-            (blobFile) => new File([blobFile], "pfp", { type: "image/png" })
+            (blobFile) => {
+              data.append("file", blobFile)
+            }
           );
-        const created = await client.add(file);
-        cid = created.path;
-        pfpURL = `https://ipfs.infura.io/ipfs/${created.path}`;
+
+        // console.log(data);
+
+        // await axios.post('http://localhost:5001', data).then(response => {
+        //     cid = response.data
+        // })
+
+        // console.log(cid);
+        
+        pfpURL = `https://solr-pay.infura-ipfs.io/ipfs/${cid}`;
       }
 
       if (props.initialize) {
@@ -123,7 +133,7 @@ export const Form: React.FC<FormProps> = (props) => {
           return {
             pubkey: f.toString(),
             username: walletState.username ,
-            pfpURL: `https://ipfs.infura.io/ipfs/${(
+            pfpURL: `https://solr-pay.infura-ipfs.io/ipfs/${(
               walletState.pfpCid 
             ).toString()}`,
           };
@@ -144,34 +154,34 @@ export const Form: React.FC<FormProps> = (props) => {
   };
 
   return (
-    <div className="pb-10 flex gap-0 bg-gray-800 w-screen items-center rounded-none flex-col h-max md:py-14 md:bg-gray-800 md:gap-3 md:rounded-xl md:w-1/2">
-      <div className="pt-10 flex gap-10 mb-8 justify-center items-start md:pt-0">
+    <div className="pb-10 flex gap-0 bg-gray-100 w-screen items-center rounded-none flex-col h-max md:py-14 md:bg-gray-800 md:gap-3 md:rounded-xl md:w-1/2">
+      <div className="flex pb-10 justify-center items-center flex-col gap-4 md:gap-10 md:items-start md:flex-row md:mb-8 md:py-0">
         <div className="flex justify-center items-center">
           <label
             className={classNames(
               validate && image === ""
                 ? "border-4 border-red-400"
                 : "border-2 border-gray-300",
-              "w-28 h-28 rounded-full flex flex-col justify-center items-center bg-gray-700  cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-600 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              "w-32 h-32 rounded-full flex flex-col justify-center items-center cursor-pointer hover:bg-bray-800 bg-gray-100 border-gray-600 hover:border-gray-900 hover:bg-gray-200 md:bg-gray-700 md:border-gray-600 md:hover:border-gray-500 md:hover:bg-gray-600 md:w-28 md:h-28"
             )}
           >
             <div className="flex flex-col justify-center items-center relative">
               {image === "" ? (
                 <>
-                  <UserIcon className="m-3 w-16 h-20 text-gray-50" />
+                  <UserIcon className="m-3 w-20 h-24 md:w-16 md:h-20 text-gray-900 md:text-gray-50" />
                   <PlusCircleIcon
                     className={classNames(
                       validate && image === ""
                         ? "text-red-400"
-                        : "text-slate-50",
-                      "absolute bottom-1 left-20 w-8 h-8"
+                        : "text-slate-900 md:text-slate-50",
+                      "absolute -bottom-1 left-24 w-10 h-10 md:bottom-1 md:w-8 md:h-8 md:left-20"
                     )}
                   />
                 </>
               ) : (
                 <img
                   src={image}
-                  className="rounded-full w-28 h-28 object-cover"
+                  className="rounded-full w-32 h-32 object-cover md:w-28 md:h-28"
                 />
               )}
             </div>
@@ -184,67 +194,68 @@ export const Form: React.FC<FormProps> = (props) => {
           </label>
         </div>
 
-        <div className="w-2/5">
+        <div className="w-3/5 md:w-2/5 flex flex-col justify-center md:block">
           <input
             ref={username}
             className={classNames(
               validate && username.current!.value === ""
                 ? "border-red-400"
                 : "border-slate-500",
-              "border-b-2 bg-gray-800  text-white text-3xl font-bold placeholder:text-white mb-5 block outline-0 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              "border-b-2 bg-gray-100 text-gray-800 text-center text-3xl font-bold placeholder:text-gray-600 mb-5 block outline-0 w-full h-16 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 md:text-white md:placeholder:text-white md:p-2.5 md:text-start md:bg-gray-800 md:h-auto"
             )}
             placeholder="username"
             defaultValue={user.username}
             required
           />
-          <Button color="primary" onClick={handleSubmit}>
+          <Button className="w-3/5 md:w-auto self-center" color="primary" onClick={handleSubmit}>
             {props.submitText}
           </Button>
         </div>
       </div>
 
-      <div className="block h-px self-end w-11/12 bg-gray-500 md:hidden"/>
+      <div className="block h-px self-end w-11/12 bg-gray-300 md:hidden"/>
       
       <Card>
         <div className="flex flex-col place-self-start gap-4 mt-6 md:mt-4 w-11/12 md:w-full">
           <div className="flex justify-between">
-            <div className="h-5 w-32 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800 md:w-48"></div>
+            <div className="h-5 w-32 bg-slate-300 rounded-sm md:rounded-none md:bg-slate-800 md:w-48"></div>
             <h1 className="text-green-500 font-bold">38 USDC</h1>
           </div>
-          <div className="mb-3 h-3 w-28 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800 md:w36"></div>
+          <div className="mb-3 h-3 w-28 bg-slate-300 rounded-sm md:rounded-none md:bg-slate-800 md:w36"></div>
         </div>
       </Card>
 
       <Card>
         <div className="flex flex-col place-self-start gap-4 mt-6 md:mt-4 w-11/12 md:w-full">
           <div className="flex justify-between">
-            <div className="h-5 w-36 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800"></div>
+            <div className="h-5 w-36 bg-slate-300 rounded-sm md:rounded-none md:bg-slate-800"></div>
             <h1 className="text-red-500 font-bold">-1 SOL</h1>
           </div>
-          <div className="mb-3 h-3 w-56 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800"></div>
+          <div className="mb-3 h-3 w-56 bg-slate-300 rounded-sm md:rounded-none md:bg-slate-800"></div>
         </div>
       </Card>
 
       <Card>
         <div className="flex flex-col place-self-start gap-4 mt-6 md:mt-4 w-11/12 md:w-full">
           <div className="flex justify-between">
-            <div className="h-5 w-40 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800 md:w-44"></div>
+            <div className="h-5 w-40 bg-slate-300 rounded-sm md:rounded-none md:bg-slate-800 md:w-44"></div>
             <h1 className="text-green-500 font-bold">2.3 SOL</h1>
           </div>
-          <div className="mb-3 h-3 w-24 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800"></div>
+          <div className="mb-3 h-3 w-24 bg-slate-300 rounded-sm md:rounded-none md:bg-slate-800"></div>
         </div>
       </Card>
 
       <Card>
         <div className="flex flex-col place-self-start gap-4 mt-6 md:mt-4 w-11/12 md:w-full">
           <div className="flex justify-between">
-            <div className="h-5 w-28 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800"></div>
+            <div className="h-5 w-28 bg-slate-300 rounded-sm md:rounded-none md:bg-slate-800"></div>
             <h1 className="text-green-500 font-bold">12 USDT</h1>
           </div>
-          <div className="mb-3 h-3 w-52 bg-slate-600 rounded-sm md:rounded-none md:bg-slate-800"></div>
+          <div className="mb-3 h-3 w-52 bg-slate-300 rounded-sm md:rounded-none md:bg-slate-800"></div>
         </div>
       </Card>
       <Toast toast={toast} setToast={setToast} />
     </div>
   );
 };
+

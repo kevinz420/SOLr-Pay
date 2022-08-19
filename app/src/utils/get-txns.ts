@@ -21,7 +21,7 @@ const pubkeyToUser = async (
   return {
     username: user.username as string,
     pfpURL: isPayer
-      ? `https://ipfs.infura.io/ipfs/${(user.pfpCid as Uint8Array).toString()}`
+      ? `https://solr-pay.infura-ipfs.io/ipfs/${(user.pfpCid as Uint8Array).toString()}`
       : "",
   };
 };

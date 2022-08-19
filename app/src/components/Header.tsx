@@ -14,6 +14,7 @@ import {
   WalletMultiButton,
   WalletDisconnectButton,
 } from "@solana/wallet-adapter-react-ui";
+import { DisconnectButton } from './DisconnectButton'
 import getWallet from "../utils/get-wallet";
 import getFriends from "../utils/get-friends";
 
@@ -39,7 +40,7 @@ export const Header: React.FC = () => {
         connection,
         wallet.publicKey!
       );
-      const pfpURL = `https://ipfs.infura.io/ipfs/${(
+      const pfpURL = `https://solr-pay.infura-ipfs.io/ipfs/${(
         walletState.pfpCid
       ).toString()}`;
       const friends = await Promise.all(
@@ -48,7 +49,7 @@ export const Header: React.FC = () => {
           return {
             pubkey: f.toString(),
             username: walletState.username,
-            pfpURL: `https://ipfs.infura.io/ipfs/${(
+            pfpURL: `https://solr-pay.infura-ipfs.io/ipfs/${(
               walletState.pfpCid
             ).toString()}`,
           };
@@ -114,81 +115,88 @@ export const Header: React.FC = () => {
         </form>
 
         {wallet.connected ? (
-          <div className="flex gap-2.5 items-center">
-            <Button
-              color="primary"
-              className="hidden md:flex"
-              onClick={() => {
-                navigate("/payment");
-              }}
-            >
-              <SwitchHorizontalIcon className="h-5 text-gray-300" />
-              <p className="hidden exsm:block">Send/Request</p>
-            </Button>
-
-            <Menu as="div" className="ml-3 relative">
-              <div>
-                <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                  <span className="sr-only">Open user menu</span>
-                  <Link className="w-10 h-10 absolute rounded-full outline outline-1 outline-gray-200 md:hidden" to={`/users/${user.username}`}/>
-                  <img
-                    className="h-10 w-10 rounded-full outline outline-1 outline-gray-400"
-                    src={user.pfpURL === "" ? ufo : user.pfpURL}
-                    alt=""
-                  />
-                </Menu.Button>
-              </div>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
+          <>
+            <div className="flex gap-2.5 items-center order-first md:order-none">
+              <Button
+                color="primary"
+                className="hidden md:flex"
+                onClick={() => {
+                  navigate("/payment");
+                }}
               >
-                <Menu.Items className="hidden md:block origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-10 focus:outline-none">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link
-                        to={`/users/${user.username}`}
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
-                        )}
-                      >
-                        Your Profile
-                      </Link>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link
-                        to="/settings"
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
-                        )}
-                      >
-                        Settings
-                      </Link>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <WalletDisconnectButton
-                        startIcon={undefined}
-                        className={classNames(
-                          active ? "!bg-gray-100" : "",
-                          "!block !px-4 !text-sm !text-gray-700 !w-full !text-left hover:!bg-gray-100"
-                        )}
-                      />
-                    )}
-                  </Menu.Item>
-                </Menu.Items>
-              </Transition>
-            </Menu>
-          </div>
+                <SwitchHorizontalIcon className="h-5 text-gray-300" />
+                <p className="hidden exsm:block">Send/Request</p>
+              </Button>
+
+              <Menu as="div" className="ml-3 relative">
+                <div>
+                  <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                    <span className="sr-only">Open user menu</span>
+                    <Link className="w-10 h-10 absolute rounded-full outline outline-1 outline-gray-200 md:hidden" to={`/users/${user.username}`}/>
+                    <img
+                      className="h-10 w-10 rounded-full outline outline-1 outline-gray-400"
+                      src={user.pfpURL === "" ? ufo : user.pfpURL}
+                      alt=""
+                    />
+                  </Menu.Button>
+                </div>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="hidden md:block origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-10 focus:outline-none">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to={`/users/${user.username}`}
+                          className={classNames(
+                            active ? "bg-gray-100" : "",
+                            "block px-4 py-2 text-sm text-gray-700"
+                          )}
+                        >
+                          Your Profile
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to="/settings"
+                          className={classNames(
+                            active ? "bg-gray-100" : "",
+                            "block px-4 py-2 text-sm text-gray-700"
+                          )}
+                        >
+                          Settings
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <WalletDisconnectButton
+                          startIcon={undefined}
+                          className={classNames(
+                            active ? "!bg-gray-100" : "",
+                            "!block !px-4 !text-sm !text-gray-700 !w-full !text-left hover:!bg-gray-100"
+                          )}
+                        />
+                      )}
+                    </Menu.Item>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </div>
+
+            <DisconnectButton
+              className="mr-3 text-xs bg-transparent hover:bg-sky-400 h-full md:hidden"
+            />
+            
+          </>
         ) : (
           <WalletMultiButton/>
         )}

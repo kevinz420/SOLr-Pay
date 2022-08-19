@@ -27,7 +27,7 @@ export const Toast: React.FC<ToastProps> = (props) => {
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
-      <div className="flex items-center w-full max-w-xs p-4 mb-4 text-center rounded-lg shadow text-gray-900 bg-neutral-200 fixed top-5 md:right-8 md:bg-gray-800 md:text-gray-500 md:bottom-5 md:top-auto">
+      <div className="flex items-center w-full max-w-xs p-4 mb-4 text-center rounded-lg shadow text-gray-900 bg-neutral-200 fixed top-5 right-8 md:bg-gray-800 md:text-gray-500 md:bottom-5 md:top-auto">
         {props.toast.isSuccess ? (
           <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-green-800 text-green-200">
             <svg

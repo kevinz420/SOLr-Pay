@@ -70,7 +70,7 @@ export const Profile: React.FC = () => {
         connection,
         wallet.publicKey!
       )).friends.length;
-      const pfpURL = `https://ipfs.infura.io/ipfs/${(
+      const pfpURL = `https://solr-pay.infura-ipfs.io/ipfs/${(
         walletState.pfpCid 
       ).toString()}`;
       setProfile({
@@ -102,7 +102,7 @@ export const Profile: React.FC = () => {
         return {
           pubkey: f.toString(),
           username: walletState.username ,
-          pfpURL: `https://ipfs.infura.io/ipfs/${(
+          pfpURL: `https://solr-pay.infura-ipfs.io/ipfs/${(
             walletState.pfpCid 
           ).toString()}`,
         };
@@ -128,7 +128,7 @@ export const Profile: React.FC = () => {
             className="rounded-full w-20 h-20 outline outline-gray-800 md:outline-white md:w-36 md:h-36"
           />
           <div className="flex flex-col">
-            <div className="flex justify-between items-center pl-4 pr-2 md:px-0 flex-wrap gap-1.5">
+            <div className="flex justify-between items-center pl-4 pr-2 md:px-0 flex-wrap gap-1.5 md:gap-16">
               <h1 className="font-bold text-lg md:text-white md:text-4xl">
                 {profile.username}
               </h1>
@@ -137,7 +137,7 @@ export const Profile: React.FC = () => {
               </h2>
             </div>
             
-            <p className="mt-2 mb-3 text-gray-600 md:text-gray-400 flex gap-3 px-4 md:px-0 md:mb-8">
+            <p className="mt-2 mb-3 text-gray-600 md:text-gray-400 flex gap-3 px-4 md:px-0 md:mb-4 md:mt-4">
               {profile.pk?.toString().slice(0, 13) +
                 "..."}
               <DuplicateIcon

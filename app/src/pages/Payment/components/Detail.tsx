@@ -37,8 +37,7 @@ export const Detail: React.FC<DetailProps> = (props) => {
     if (
       amount === "" ||
       props.user.username === "" ||
-      note.current!.value === "" ||
-      await isFloat(amount)
+      note.current!.value === ""
     ) {
       setToast({
         visible: true,
