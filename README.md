@@ -5,6 +5,7 @@
 
 SOLr Pay is a decentralized P2P payment protocol on the [Solana](https://solana.com/) blockchain that aims to improve the user experience of crypto payments. Anyone can create a customized Solr profile, quickly access other Solana wallets in their friend network, and send casual payments with a note, all on-chain.
 
+IMPORTANT: IPFS Infura has changed their services, so creating a profile does not currently function through the app. We are working on fixing this now.
 ## Local Development
 Codebase is a monorepo with the frontend interface in the **app** folder and smart contracts in the **programs/solrpay** folder. To run it locally, run the following commands:
 ```
