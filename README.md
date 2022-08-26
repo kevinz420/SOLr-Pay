@@ -1,11 +1,10 @@
-# SOLr Pay
+# [SOLr Pay](https://www.solrpay.com/)
 <img src="https://cdn.discordapp.com/attachments/947631586818527252/995794901415505960/solrpay.png" width="600">
 
 > "Connecting payments across the Solr System."
 
 SOLr Pay is a decentralized P2P payment protocol on the [Solana](https://solana.com/) blockchain that aims to improve the user experience of crypto payments. Anyone can create a customized Solr profile, quickly access other Solana wallets in their friend network, and send casual payments with a note, all on-chain.
 
-IMPORTANT: IPFS Infura has changed their services, so creating a profile does not currently function through the app. We are working on fixing this now.
 ## Local Development
 Codebase is a monorepo with the frontend interface in the **app** folder and smart contracts in the **programs/solrpay** folder. To run it locally, run the following commands:
 ```
